@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SCalculator</string>
+    <string name="welсome_text">Welcome To The\n
+        SCalculator</string>
+    <string name="random_heading">Вы открыли приложение SCalaculator. Случайное число: %1d</string>
+    <string name="eq_field">Value</string>
+</resources>
