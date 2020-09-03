@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':calc'
 rootProject.name='SCalculator'
