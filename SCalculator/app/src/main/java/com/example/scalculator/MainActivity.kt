@@ -1,8 +1,11 @@
 package com.example.scalculator
 
+import EquationTree
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import help_functions.equationSimplifier
+import help_functions.equationTokenizer
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -33,33 +36,39 @@ class MainActivity : AppCompatActivity() {
             R.id.button_del -> equation.text.append('/')
             R.id.button_mult -> equation.text.append('*')
             R.id.button_pow -> equation.text.append('^')
-            R.id.button_dot -> equation.text.append('.')
+            R.id.button_dot -> {
+                when (equation.text.toString()[equation.text.length - 1]) {
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> equation.text.append('.')
+                }
+            }
             R.id.clear_button -> equation.text.clear()
             R.id.delete_button -> {
                 if (equation.text.isNotEmpty()) {
                     equation.text.delete(equation.text.length - 1, equation.text.length)
                 }
             }
-//            R.id.equal_button -> {
-//                val calculate = ProcessBuilder("libs/Calculator.exe", "2+1")
-//                calculate.start()
-//                val input = File("com/example/scalculator/Result.txt")
-//                equation.text.clear()
-//                equation.text.append(input.readLines()[0])
-//            }
+            R.id.equal_button -> {
+                var tokenizedEq = equationTokenizer(equation.text.toString())
+                tokenizedEq = equationSimplifier(tokenizedEq)
+                val testTree = EquationTree(tokenizedEq)
+                val result = testTree.computeEquation()
+                equation.text.clear()
+                if (result.getUpper() == -1 && result.getLower() == -1) equation.text.append(testTree.exception)
+                else {
+                    val floatResult = result.getUpper().toFloat() / result.getLower().toFloat()
+                    val testResult = floatResult.toInt()
+                    if (floatResult == testResult.toFloat()) equation.text.append(
+                        result.getUpper().toString()
+                    )
+                    else equation.text.append(
+                        result.getUpper().toString() + "/" + result.getLower().toString()
+                    )
+                }
+            }
+            else -> {
+                equation.text.clear()
+                equation.text.append("Error")
+            }
         }
     }
-
-//    fun toastMe(view: View) {
-//        val myToast = Toast.makeText(this, "SCalc is ready!", Toast.LENGTH_SHORT)
-//        myToast.show()
-//    }
-
-//    fun startApp(view: View) {
-//        val startIntent = Intent(this, SecondActivity::class.java)
-//        val countString = numberView.text.toString()
-//        val count = Integer.parseInt(countString)
-//        startIntent.putExtra(SecondActivity.TOTAL_COUNT, count)
-//        startActivity(startIntent)
-//    }
 }
