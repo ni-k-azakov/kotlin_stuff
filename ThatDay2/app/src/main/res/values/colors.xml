@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#FF5273</color>
     <color name="colorAccent">#7B8EFF</color>
     <color name="white">#FFFFFF</color>
+    <color name="colorPrimaryGrad">#FF4545</color>
+    <color name="colorSecondaryDark">#4187FD</color>
+    <color name="colorSecondary">#82FFFF</color>
+    <color name="colorCommon">#FFE198</color>
+    <color name="colorCommonDark">#FF8045</color>
 </resources>

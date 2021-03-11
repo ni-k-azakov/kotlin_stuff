@@ -7,9 +7,10 @@
     tools:context=".CalendarActivity">
 
     <CalendarView
-        android:id="@+id/calendarView2"
+        android:id="@+id/periodCalendar"
         android:layout_width="0dp"
-        android:layout_height="293dp"
+        android:layout_height="305dp"
+        android:minDate="01.01.2000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,12 +27,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="20dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_gradient_container"
                 android:orientation="vertical">
 
@@ -57,7 +59,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_gradient_container"
                 android:orientation="vertical">
 
@@ -81,7 +83,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_gradient_container"
                 android:orientation="vertical">
 
@@ -105,7 +107,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_gradient_container"
                 android:orientation="vertical">
 
@@ -134,56 +136,68 @@
         android:layout_height="162dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView2">
+        app:layout_constraintTop_toBottomOf="@+id/periodCalendar">
 
         <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/round_gradient_container"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/progressBar3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_gradient_container"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="9dp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="%d"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="36sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="20"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="56sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Осталось"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="осталось"
-                android:textAlignment="center"
+                android:background="@drawable/rounded_container"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Прогноз начала месячных"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-        </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="187dp"
-            android:layout_height="52dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

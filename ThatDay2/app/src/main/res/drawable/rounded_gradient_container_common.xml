@@ -4,11 +4,11 @@
 
         <shape>
             <gradient
-                android:startColor="#FF4545"
-                android:endColor="#FFABC8"
+                android:startColor="@color/colorCommonDark"
+                android:endColor="@color/colorCommon"
                 android:angle="45">
             </gradient>
-            <corners android:radius="360dp"/>
+            <corners android:radius="20dp"/>
             <padding android:top="2dp"
                 android:right="2dp"
                 android:left="2dp"
