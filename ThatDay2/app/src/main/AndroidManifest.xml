@@ -9,10 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".GraphActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".CalendarActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome"
-            android:theme="@style/AppTheme.NoStatusBar"></activity>
+            android:theme="@style/AppTheme.NoStatusBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

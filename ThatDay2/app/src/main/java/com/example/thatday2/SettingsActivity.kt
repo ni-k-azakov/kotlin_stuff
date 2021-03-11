@@ -1,14 +1,12 @@
 package com.example.thatday2
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 
-
-class WelcomeActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+        setContentView(R.layout.activity_settings)
     }
-
 }
