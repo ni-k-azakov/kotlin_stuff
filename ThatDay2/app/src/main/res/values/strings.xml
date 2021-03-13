@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">ThatDay</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="period_medium">Ср. длина месячных:</string>
+    <string name="cycle_medium">Ср. длина цикла:</string>
 </resources>

@@ -1,10 +1,9 @@
 package com.example.thatday2.Processor
 
-import java.util.*
-
 class PeriodsInfo {
     val averagePeriodsDuration: Int
         get() {
+            return 0
             var total: Long = 0
             for (period in savedData.getPeriodDurInfo()) {
                 total += period
@@ -14,6 +13,7 @@ class PeriodsInfo {
         }
     val averageCycleDuration: Int
         get() {
+            return 0
             var total: Long = 0
             for (cycle in savedData.getCycleDurInfo()) {
                 total += cycle
