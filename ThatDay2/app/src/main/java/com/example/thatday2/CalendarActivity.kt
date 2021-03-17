@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarView
+import com.applandeo.materialcalendarview.EventDay
 import com.example.thatday2.Processor.DataStorage
 import com.example.thatday2.Processor.PeriodsInfo
 import kotlinx.android.synthetic.main.activity_calendar.*
@@ -21,16 +22,17 @@ class CalendarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+        calendarView = findViewById(R.id.periodCalendar)
 
         periodLoader()
         showPeriodInfo()
 
-        calendarView = findViewById(R.id.periodCalendar)
         calendarView.setOnDayClickListener { eventDay ->
             val clickedDayCalendar: Calendar = eventDay.calendar
             val time = clickedDayCalendar.timeInMillis
-            periodsInfo.addOrRemoveDate(time)
-            Toast.makeText(this@CalendarActivity, periodsInfo.savedData.periodDays.size.toString(), Toast.LENGTH_SHORT).show()
+            if (time <= Calendar.getInstance().timeInMillis) {
+                periodsInfo.addOrRemoveDate(time)
+            }
         }
     }
 
@@ -56,8 +58,21 @@ class CalendarActivity : AppCompatActivity() {
 
     private fun showPeriodInfo() {
         periodsInfo.updateStat()
-        Toast.makeText(this@CalendarActivity, periodsInfo.savedData.periodsDurations.size.toString(), Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this@CalendarActivity, periodsInfo.savedData.periodsDurations.size.toString(), Toast.LENGTH_SHORT).show()
         cycle_medium_number.text = periodsInfo.averageCycleDuration.toString()
         period_medium_number.text = periodsInfo.averagePeriodsDuration.toString()
+
+        val selectedDates = mutableListOf<Calendar>()
+        for (date in periodsInfo.getPeriodDays()) {
+            selectedDates.add(Calendar.getInstance())
+            selectedDates.last().timeInMillis = date
+        }
+        calendarView.selectedDates = selectedDates
+    }
+
+    private fun testEvents() {
+//        val events: MutableList<EventDay> = mutableListOf()
+//        events.add(EventDay(clickedDayCalendar, R.drawable.sample_three_icons))
+//        calendarView.setEvents(events)
     }
 }

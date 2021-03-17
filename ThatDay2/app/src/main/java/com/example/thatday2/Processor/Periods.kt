@@ -1,5 +1,7 @@
 package com.example.thatday2.Processor
 
+import kotlin.math.roundToInt
+
 class PeriodsInfo(val savedData: DataStorage) {
     val averagePeriodsDuration: Int
         get() {
@@ -31,6 +33,10 @@ class PeriodsInfo(val savedData: DataStorage) {
     }
 
     private fun millisToDays(millis: Long): Int {
-        return (millis / 86400000).toInt()
+        return (millis / 86400000F).roundToInt()
+    }
+
+    fun getPeriodDays(): MutableList<Long> {
+        return savedData.periodDays
     }
 }

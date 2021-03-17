@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minDate="01.01.2018"
+            app:eventsEnabled="true"
             app:abbreviationsBarColor="@color/colorPrimary"
             app:abbreviationsLabelsColor="@android:color/black"
             app:headerColor="@color/colorPrimaryDark"
@@ -43,7 +44,7 @@
             app:selectionColor="@color/colorPrimaryDark"
             app:selectionLabelColor="#FFFFFF"
             app:todayLabelColor="@color/colorPrimaryDark"
-            app:type="one_day_picker" />
+            app:type="many_days_picker" />
 
         <ScrollView
             android:layout_width="match_parent"
