@@ -1,24 +1,27 @@
 package com.example.thatday2.Processor
 
-import com.example.thatday2.Processor.utils.Month
-import java.util.*
+import java.io.Serializable
 
-class DataStorage {
+class DataStorage : Serializable {
+    private val serialVersionUID = 1L
+
     val periodDays: MutableList<Long> = mutableListOf()
     val periodsDurations: MutableList<Long> = mutableListOf()
     val cycleDurations: MutableList<Long> = mutableListOf()
 
-    fun addDate(date: Long) {
-        periodDays.add(date)
-    }
 
-    fun deleteDate(date: Long) {
-        periodDays.remove(date)
+    fun addOrRemoveDate(date: Long) {
+        if (periodDays.contains(date)) {
+            periodDays.remove(date)
+        } else {
+            periodDays.add(date)
+        }
     }
 
     fun updateDurations() {
         periodsDurations.clear()
         periodDays.sort()
+        if (periodDays.size == 0) return
         var firstPeriodDay: Long = periodDays[0]
         var lastPeriodDay: Long = periodDays[0]
         for (i in 0 until periodDays.size - 1) {
@@ -45,4 +48,5 @@ class DataStorage {
     private fun dayToMillis(dayAmount: Int): Long {
         return dayAmount.toLong() * 86400000
     }
+
 }

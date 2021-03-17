@@ -1,9 +1,9 @@
 package com.example.thatday2.Processor
 
-class PeriodsInfo {
+class PeriodsInfo(val savedData: DataStorage) {
     val averagePeriodsDuration: Int
         get() {
-            return 0
+            if (savedData.getPeriodDurInfo().size == 0) return 0
             var total: Long = 0
             for (period in savedData.getPeriodDurInfo()) {
                 total += period
@@ -11,9 +11,10 @@ class PeriodsInfo {
             total /= savedData.getPeriodDurInfo().size
             return millisToDays(total)
         }
+
     val averageCycleDuration: Int
         get() {
-            return 0
+            if (savedData.getCycleDurInfo().size == 0) return 0
             var total: Long = 0
             for (cycle in savedData.getCycleDurInfo()) {
                 total += cycle
@@ -21,13 +22,9 @@ class PeriodsInfo {
             total /= savedData.getCycleDurInfo().size
             return millisToDays(total)
         }
-    val savedData: DataStorage = DataStorage()
 
-    fun addDate(date: Long) {
-        savedData.addDate(date)
-    }
-    fun deleteDay(date: Long) {
-        savedData.deleteDate(date)
+    fun addOrRemoveDate(date: Long) {
+        savedData.addOrRemoveDate(date)
     }
     fun updateStat() {
         savedData.updateDurations()
