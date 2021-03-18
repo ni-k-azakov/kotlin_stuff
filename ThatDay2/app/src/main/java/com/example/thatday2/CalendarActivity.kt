@@ -18,7 +18,9 @@ import java.util.*
 class CalendarActivity : AppCompatActivity() {
     private lateinit var periodsInfo: PeriodsInfo
     private lateinit var calendarView: CalendarView
-
+    private var averageCycleDuration = 0
+    private var averagePeriodsDuration = 0
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
@@ -26,6 +28,7 @@ class CalendarActivity : AppCompatActivity() {
 
         periodLoader()
         showPeriodInfo()
+        calculateNextPeriodDays()
 
         calendarView.setOnDayClickListener { eventDay ->
             val clickedDayCalendar: Calendar = eventDay.calendar
@@ -59,8 +62,10 @@ class CalendarActivity : AppCompatActivity() {
     private fun showPeriodInfo() {
         periodsInfo.updateStat()
 //        Toast.makeText(this@CalendarActivity, periodsInfo.savedData.periodsDurations.size.toString(), Toast.LENGTH_SHORT).show()
-        cycle_medium_number.text = periodsInfo.averageCycleDuration.toString()
-        period_medium_number.text = periodsInfo.averagePeriodsDuration.toString()
+        averageCycleDuration = periodsInfo.averageCycleDuration
+        averagePeriodsDuration = periodsInfo.averagePeriodsDuration
+        cycle_medium_number.text = averageCycleDuration.toString()
+        period_medium_number.text = averagePeriodsDuration.toString()
 
         val selectedDates = mutableListOf<Calendar>()
         for (date in periodsInfo.getPeriodDays()) {
@@ -71,8 +76,26 @@ class CalendarActivity : AppCompatActivity() {
     }
 
     private fun testEvents() {
-//        val events: MutableList<EventDay> = mutableListOf()
-//        events.add(EventDay(clickedDayCalendar, R.drawable.sample_three_icons))
-//        calendarView.setEvents(events)
+        val events: MutableList<EventDay> = mutableListOf()
+//        events.add(EventDay(clickedDayCalendar, R.drawable.blood_icon))
+//        events.add(EventDay(clickedDayCalendar, R.drawable.ovul_icon))
+        calendarView.setEvents(events)
+    }
+    
+    private fun calculateNextPeriodDays() {
+        val events: MutableList<EventDay> = mutableListOf()
+        val selectedDates = mutableListOf<Calendar>()
+        if (periodsInfo.getLatestPeriodsFirstDay() > 0) {
+            val lastPeriods = periodsInfo.getLatestPeriodsFirstDay()
+            for (i in 1..10) {
+                for (j in 0 until averagePeriodsDuration) {
+                    selectedDates.add(Calendar.getInstance())
+                    selectedDates.last().timeInMillis = lastPeriods
+                    selectedDates.last().set(Calendar.DAY_OF_MONTH, selectedDates.last().get(Calendar.DATE) + averageCycleDuration * i + j)
+                    events.add(EventDay(selectedDates.last(), R.drawable.blood_icon))
+                }
+            }
+            calendarView.setEvents(events)
+        }
     }
 }

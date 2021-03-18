@@ -39,4 +39,7 @@ class PeriodsInfo(val savedData: DataStorage) {
     fun getPeriodDays(): MutableList<Long> {
         return savedData.periodDays
     }
+    fun getLatestPeriodsFirstDay(): Long {
+        return savedData.getLatestPeriodFirstDay()
+    }
 }

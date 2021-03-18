@@ -9,7 +9,7 @@ class DataStorage : Serializable {
     val periodDays: MutableList<Long> = mutableListOf()
     val periodsDurations: MutableList<Long> = mutableListOf()
     val cycleDurations: MutableList<Long> = mutableListOf()
-
+    var firstPeriodDaySaved = 0L
 
     fun addOrRemoveDate(date: Long) {
         if (periodDays.contains(date)) {
@@ -32,6 +32,7 @@ class DataStorage : Serializable {
                     cycleDurations.add(periodDays[i + 1] - firstPeriodDay)
                     periodsDurations.add(lastPeriodDay - firstPeriodDay + dayToMillis(1))
                 }
+                firstPeriodDaySaved = firstPeriodDay
                 firstPeriodDay = periodDays[i + 1]
                 lastPeriodDay = periodDays[i + 1]
             } else {
@@ -39,6 +40,7 @@ class DataStorage : Serializable {
             }
             if (i + 1 == periodDays.lastIndex && Calendar.getInstance().timeInMillis - periodDays[i + 1] > dayToMillis(3)) {
                 periodsDurations.add(lastPeriodDay - firstPeriodDay + dayToMillis(1))
+                firstPeriodDaySaved = firstPeriodDay
             }
         }
     }
@@ -49,7 +51,9 @@ class DataStorage : Serializable {
     fun getCycleDurInfo(): MutableList<Long> {
         return cycleDurations
     }
-
+    fun getLatestPeriodFirstDay(): Long {
+        return firstPeriodDaySaved
+    }
     private fun dayToMillis(dayAmount: Int): Long {
         return dayAmount.toLong() * 86400000
     }
