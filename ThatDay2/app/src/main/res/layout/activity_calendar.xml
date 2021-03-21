@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CalendarActivity">
 
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/periodConfirmButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:clickable="true"-->
-<!--        android:onClick="addPeriod"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.91"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/linearLayout4"-->
-<!--        app:layout_constraintVertical_bias="0.96"-->
-<!--        app:srcCompat="@drawable/rounded_gradient_container" />-->
-
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
