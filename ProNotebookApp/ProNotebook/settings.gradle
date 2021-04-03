@@ -1,0 +1,2 @@
+include ':app', ':notelogic', ':NoteLib', ':notelib', ':notelib_2', ':noteandroidlib'
+rootProject.name='ProNotebook'
