@@ -2,11 +2,10 @@ package com.example.thatday2
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.applandeo.materialcalendarview.CalendarView
+//import com.haibin.calendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
 import com.example.thatday2.Processor.DataStorage
 import com.example.thatday2.Processor.PeriodsInfo
@@ -18,8 +17,10 @@ import java.util.*
 class CalendarActivity : AppCompatActivity() {
     private lateinit var periodsInfo: PeriodsInfo
     private lateinit var calendarView: CalendarView
+    private lateinit var mCalendarView: CalendarView
     private var averageCycleDuration = 0
     private var averagePeriodsDuration = 0
+
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

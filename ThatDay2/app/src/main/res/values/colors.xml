@@ -9,5 +9,6 @@
     <color name="colorSecondaryDark">#4187FD</color>
     <color name="colorSecondary">#82FFFF</color>
     <color name="colorCommon">#FFE198</color>
+    <color name="translusent">#00FFE198</color>
     <color name="colorCommonDark">#FF8045</color>
 </resources>

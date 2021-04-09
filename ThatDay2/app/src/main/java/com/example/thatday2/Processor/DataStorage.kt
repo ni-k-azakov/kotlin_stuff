@@ -1,5 +1,6 @@
 package com.example.thatday2.Processor
 
+import com.example.thatday2.Processor.utils.DayInfoField
 import java.io.Serializable
 import java.util.*
 
@@ -9,6 +10,7 @@ class DataStorage : Serializable {
     val periodDays: MutableList<Long> = mutableListOf()
     val periodsDurations: MutableList<Long> = mutableListOf()
     val cycleDurations: MutableList<Long> = mutableListOf()
+    val dayInfo: MutableMap<Long, DayInfo> = mutableMapOf()
     var firstPeriodDaySaved = 0L
 
     fun addOrRemoveDate(date: Long) {
@@ -57,5 +59,10 @@ class DataStorage : Serializable {
     private fun dayToMillis(dayAmount: Int): Long {
         return dayAmount.toLong() * 86400000
     }
-
+    fun modifyDayInfo(date: Long, field: DayInfoField, value: Int) {
+        if (!dayInfo.containsKey(date)) {
+            dayInfo[date] = DayInfo(date)
+        }
+        dayInfo[date]!!.modifyDayInfo(field, value)
+    }
 }

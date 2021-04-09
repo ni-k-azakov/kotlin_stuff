@@ -4,51 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_container"
     tools:context=".CalendarActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/periodCalendar">
 
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/periodCalendar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minDate="01.01.2018"
-            app:eventsEnabled="true"
-            app:abbreviationsBarColor="@color/colorPrimary"
-            app:abbreviationsLabelsColor="@android:color/black"
-            app:headerColor="@color/colorPrimaryDark"
-            app:highlightedDaysLabelsColor="#FFFFFF"
-            app:pagesColor="@color/colorPrimaryLight"
-            app:selectionColor="@color/colorPrimaryDark"
-            app:selectionLabelColor="#FFFFFF"
-            app:todayLabelColor="@color/colorPrimaryDark"
-            app:type="many_days_picker" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:orientation="vertical"
+            android:paddingTop="500dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_upper_corners"
+                android:elevation="5dp"
                 android:orientation="vertical"
+                android:overScrollMode="never"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:scrollbars="none">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="162dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
+                    android:layout_height="140dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -113,13 +102,15 @@
                     android:id="@+id/horizontalScrollView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overScrollMode="never"
                     android:scrollbars="none">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:paddingTop="20dp">
+                        android:paddingTop="20dp"
+                        android:scrollbars="none">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -265,6 +256,7 @@
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overScrollMode="never"
                     android:scrollbars="none">
 
                     <LinearLayout
@@ -406,22 +398,40 @@
 
                 </HorizontalScrollView>
             </LinearLayout>
-        </ScrollView>
 
+        </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/periodCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minDate="01.01.2018"
+        app:abbreviationsBarColor="@color/colorPrimary"
+        app:abbreviationsLabelsColor="@android:color/black"
+        app:eventsEnabled="true"
+        app:headerColor="@color/colorPrimaryDark"
+        app:highlightedDaysLabelsColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pagesColor="@color/colorPrimaryLight"
+        app:selectionColor="@color/colorPrimaryDark"
+        app:selectionLabelColor="#FFFFFF"
+        app:todayLabelColor="@color/colorPrimaryDark"
+        app:type="many_days_picker" />
 
 
     <!--    <nl.joery.animatedbottombar.AnimatedBottomBar-->
-<!--        android:id="@+id/bottom_bar"-->
-<!--        android:background="#FFF"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:abb_selectedTabType="text"-->
-<!--        app:abb_indicatorAppearance="round"-->
-<!--        app:abb_indicatorMargin="16dp"-->
-<!--        app:abb_indicatorHeight="4dp"-->
-<!--        app:abb_tabs="@menu/tabs"-->
-<!--        app:abb_selectedIndex="1" />-->
+    <!--        android:id="@+id/bottom_bar"-->
+    <!--        android:background="#FFF"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:abb_selectedTabType="text"-->
+    <!--        app:abb_indicatorAppearance="round"-->
+    <!--        app:abb_indicatorMargin="16dp"-->
+    <!--        app:abb_indicatorHeight="4dp"-->
+    <!--        app:abb_tabs="@menu/tabs"-->
+    <!--        app:abb_selectedIndex="1" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
