@@ -63,15 +63,15 @@ class MainActivity : AppCompatActivity() {
         dataSaver()
     }
 
-    fun dataLoader() {
-        waterInfo = if (File(this.filesDir.absolutePath + "/water_info.dat").exists()) {
+    private fun dataLoader() {
+        waterInfo = if (File(this.filesDir.absolutePath + "/water_info_debug.dat").exists()) {
             val inputStream = ObjectInputStream(FileInputStream(this.filesDir.absolutePath + "/water_info_debug.dat"))
             WaterInfo(inputStream.readObject() as DataStorage)
         } else {
             WaterInfo(DataStorage())
         }
 
-        profile = if (File(this.filesDir.absolutePath + "/profile_info.dat").exists()) {
+        profile = if (File(this.filesDir.absolutePath + "/profile_info_debug.dat").exists()) {
             val inputStream = ObjectInputStream(FileInputStream(this.filesDir.absolutePath + "/profile_info_debug.dat"))
             inputStream.readObject() as Profile
         } else {
