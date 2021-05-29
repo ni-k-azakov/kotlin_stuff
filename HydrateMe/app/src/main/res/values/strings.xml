@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">HydrateMe</string>
+    <string name="trophy_amount">Трофеев: %d</string>
+    <string name="highest_score">Рекорд: %d</string>
+    <string name="lvl_info">Уровень %d</string>
+    <string name="name_hint">Введите имя</string>
+    <string name="water_info">%f из %f л</string>
+    <string name="progress_text">%d/%d</string>
 </resources>

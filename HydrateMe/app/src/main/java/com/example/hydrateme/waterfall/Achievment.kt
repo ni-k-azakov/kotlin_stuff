@@ -1,6 +1,8 @@
 package com.example.hydrateme.waterfall
 
-class Achievment(val id: Byte, val name: String, val description: String, val exp: Int, val isSecret: Boolean, private val reward: Short, private val checkCompletion: (Int) -> Boolean) {
+import java.io.Serializable
+
+data class Achievment(val id: Byte, val name: String, val description: String, val exp: Int, val isSecret: Boolean, private val reward: Short, private val checkCompletion: (Int) -> Boolean) {
     var done: Boolean = false
 
     fun isUpdated(value: Int): Pair<Boolean, Short> {

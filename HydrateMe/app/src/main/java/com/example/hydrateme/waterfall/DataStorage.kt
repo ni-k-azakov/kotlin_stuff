@@ -5,9 +5,8 @@ import java.io.Serializable
 class DataStorage : Serializable {
     private val serialVersionUID = 1L
 
-    var sex: Byte = 0
-    var actTime: Float = 0.0F
-    var weight: Float = 0.0F
+    val drinks: MutableMap<Int, Int> = mutableMapOf()
+    val drinksAllTime: MutableMap<Int, Int> = mutableMapOf()
     var waterStat = mutableListOf<Pair<Long, Short>>()
 
     fun addWater(amount: Short) {
@@ -25,6 +24,18 @@ class DataStorage : Serializable {
             waterStat.last().second
         } else {
             0
+        }
+    }
+
+    fun clear() {
+        drinks.clear()
+    }
+
+    fun addDrink(id: Int, amount: Int) {
+        if (drinks.containsKey(id)) {
+            drinks[id] = drinks[id]!!.plus(amount)
+        } else {
+            drinks[id] = amount
         }
     }
 }
