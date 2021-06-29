@@ -7,11 +7,9 @@ class Profile : Serializable {
     var name = ""
     var currentExp = 0
     var lvl = 1
-    var avatar: Byte = 0
-    var dayInRow: Int = 0
-    var highestScore: Int = 0
+    var avatar: Int = -1
     var sex: Byte = 0
-    var actTime: Float = 0.0F
-    var weight: Float = 0.0F
+    var actTime: Float = 2.0F
+    var weight: Float = 72.0F
     val completedAchievmentsIdList: MutableList<Byte> = mutableListOf()
 }
