@@ -8,8 +8,8 @@ class DataStorage : Serializable {
     var prevDayCall: Long = System.currentTimeMillis() - 86400000L * 7
     var dayInRow: Int = 0
     var highestScore: Int = 0
-    val drinks: MutableMap<Int, Int> = mutableMapOf()
-    val drinksAllTime: MutableMap<Int, Int> = mutableMapOf()
+    private val drinks: MutableMap<Int, Int> = mutableMapOf()
+    val drinksAllTime: MutableMap<Int, Map<Int, Int>> = mutableMapOf()
     var waterStat = mutableListOf<Int>()
 
     fun addLiquid(amount: Int) {

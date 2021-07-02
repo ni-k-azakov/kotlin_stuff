@@ -9,4 +9,5 @@
     <string name="percentage">%d%%</string>
     <string name="drink_amount">%.2f л</string>
     <string name="days_in_row">%d дней подряд</string>
+    <string name="float_number">%.2f</string>
 </resources>

@@ -40,29 +40,9 @@ class MainActivity : AppCompatActivity() {
         fillAchievments()
 
         fillDrinksList()
-        fillDrinksInfo()
-        lvlCheck()
-        updateAvatar()
         if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime)) && waterInfo.getDayInRow() != 0) {
             profile.currentExp += 50
         }
-        lvlCheck()
-        updateAchievments()
-        findViewById<TextView>(R.id.daysInRowTextView).text = waterInfo.getDayInRow().toString()
-        findViewById<TextView>(R.id.achievementAmountView).text = getString(
-            R.string.trophy_amount,
-            profile.completedAchievmentsIdList.size
-        )
-        findViewById<TextView>(R.id.highestScoreView).text = getString(
-            R.string.highest_score,
-            waterInfo.getHighestScore()
-        )
-        findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
-        findViewById<EditText>(R.id.editTextTextPersonName).setText(
-            profile.name,
-            TextView.BufferType.EDITABLE
-        )
-        updateInfo()
         dataSaver()
     }
 
@@ -77,11 +57,13 @@ class MainActivity : AppCompatActivity() {
             profile.currentExp += 50
         }
         lvlCheck()
+        updateViews()
         updateInfo()
         clearDrinksInfo()
         fillDrinksInfo()
         updateAchievments()
         updateGraph()
+        updateAvatar()
         super.onResume()
     }
 
@@ -98,9 +80,6 @@ class MainActivity : AppCompatActivity() {
             inputStream.readObject() as Profile
         } else {
             Profile()
-        }
-        if (profile.avatar == -1) {
-            profile.avatar = R.drawable.drop
         }
 
         toastedList = if (File(this.filesDir.absolutePath + "/toasted_info_debug.dat").exists()) {
@@ -524,12 +503,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<LinearLayout>(R.id.todayDrinks2).removeAllViews()
     }
 
-//    fun dayTest(view: View) {
-//        profile.currentExp += 50
-//        lvlCheck()
-//        updateAchievments()
-//    }
-
     fun openWaterStat(view: View) {
         dataSaver()
         startActivity(Intent(this, WaterActivity::class.java))
@@ -537,7 +510,7 @@ class MainActivity : AppCompatActivity() {
 
     fun updateAvatar() {
         val avatarLayout = findViewById<ConstraintLayout>(R.id.avatar)
-        avatarLayout.setBackgroundResource(profile.avatar)
+        avatarLayout.setBackgroundResource(profile.avatar.resourceId)
     }
 
     fun updateInfo() {
@@ -593,12 +566,25 @@ class MainActivity : AppCompatActivity() {
         mChart.build()
     }
 
-    fun swapAvatar(view: View) {
-        profile.avatar = if (profile.avatar == R.drawable.drop) {
-            R.drawable.drop_female
-        } else {
-            R.drawable.drop
-        }
-        updateAvatar()
+    fun openSettings(view: View) {
+        dataSaver()
+        startActivity(Intent(this, SettingsActivity::class.java))
+    }
+
+    fun updateViews() {
+        findViewById<TextView>(R.id.daysInRowTextView).text = waterInfo.getDayInRow().toString()
+        findViewById<TextView>(R.id.achievementAmountView).text = getString(
+                R.string.trophy_amount,
+                profile.completedAchievmentsIdList.size
+        )
+        findViewById<TextView>(R.id.highestScoreView).text = getString(
+                R.string.highest_score,
+                waterInfo.getHighestScore()
+        )
+        findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
+        findViewById<EditText>(R.id.editTextTextPersonName).setText(
+                profile.name,
+                TextView.BufferType.EDITABLE
+        )
     }
 }

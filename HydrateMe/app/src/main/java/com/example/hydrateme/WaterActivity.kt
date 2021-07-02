@@ -1,17 +1,13 @@
 package com.example.hydrateme
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.hydrateme.waterfall.*
-import com.example.hydrateme.waterfall.DataStorage
-import com.example.hydrateme.waterfall.Drink
-import com.example.hydrateme.waterfall.WaterInfo
 import me.itangqi.waveloadingview.WaveLoadingView
-import org.w3c.dom.Text
 import java.io.*
 import kotlin.math.floor
 
@@ -20,6 +16,7 @@ class WaterActivity : AppCompatActivity() {
     private lateinit var waterInfo: WaterInfo
     private lateinit var profile: Profile
     private lateinit var waterLoadingView: WaveLoadingView
+    private var currentDrinkId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,13 +55,17 @@ class WaterActivity : AppCompatActivity() {
     }
 
     private fun showDrinksList() {
+        findViewById<LinearLayout>(R.id.drink_list).removeAllViews()
         for (drink in drinkList) {
             val layout = LinearLayout(this)
             layout.setBackgroundResource(drink.resourceId)
+            if (drink.id == currentDrinkId) {
+                layout.background = resources.getDrawable(R.drawable.check)
+            }
             layout.contentDescription = drink.id.toString()
             layout.setOnClickListener {
-                waterInfo.addLiquid(it.contentDescription.toString().toInt(), drinkList[it.contentDescription.toString().toInt()].calc(500), 500)
-                updateInfo()
+                currentDrinkId = it.contentDescription.toString().toInt()
+                showDrinksList()
             }
             findViewById<LinearLayout>(R.id.drink_list).addView(layout)
             val mParams: LinearLayout.LayoutParams = layout.layoutParams as LinearLayout.LayoutParams
@@ -102,7 +103,7 @@ class WaterActivity : AppCompatActivity() {
 
     fun updateAvatar() {
         val avatarLayout = findViewById<ConstraintLayout>(R.id.avatar)
-        avatarLayout.setBackgroundResource(profile.avatar)
+        avatarLayout.setBackgroundResource(profile.avatar.resourceId)
     }
 
     fun updateInfo() {
@@ -119,5 +120,12 @@ class WaterActivity : AppCompatActivity() {
         waterLoadingView.bottomTitle = String.format("%d%%", percent)
         waterLoadingView.centerTitle = ""
         waterLoadingView.topTitle = ""
+    }
+
+    fun addLiquid(view: View) {
+        val textView = view as TextView
+        val amount = (textView.text.toString().toFloat() * 1000).toInt()
+        waterInfo.addLiquid(currentDrinkId, drinkList[currentDrinkId].calc(amount), amount)
+        updateInfo()
     }
 }
