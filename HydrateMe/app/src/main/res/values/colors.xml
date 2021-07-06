@@ -13,4 +13,5 @@
     <color name="bar_title_selected_color">#FFFFFF</color>
     <color name="light_grey">#D3D3D3</color>
     <color name="settings_grey">#888888</color>
+    <color name="transparent">#00888888</color>
 </resources>

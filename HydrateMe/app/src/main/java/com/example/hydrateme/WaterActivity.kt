@@ -1,11 +1,13 @@
 package com.example.hydrateme
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.hydrateme.waterfall.*
 import me.itangqi.waveloadingview.WaveLoadingView
 import java.io.*
@@ -57,21 +59,38 @@ class WaterActivity : AppCompatActivity() {
     private fun showDrinksList() {
         findViewById<LinearLayout>(R.id.drink_list).removeAllViews()
         for (drink in drinkList) {
+            val verticalLayout1 = LinearLayout(this)
+            var vparams = LinearLayout.LayoutParams(
+                    70.dpToPixels(this).toInt(),
+                    70.dpToPixels(this).toInt()
+            )
+            verticalLayout1.layoutParams = vparams
+            verticalLayout1.orientation = LinearLayout.VERTICAL
+
             val layout = LinearLayout(this)
             layout.setBackgroundResource(drink.resourceId)
+            val checkLayout = LinearLayout(this)
             if (drink.id == currentDrinkId) {
-                layout.background = resources.getDrawable(R.drawable.check)
+                checkLayout.setBackgroundResource(R.drawable.dot)
             }
             layout.contentDescription = drink.id.toString()
             layout.setOnClickListener {
                 currentDrinkId = it.contentDescription.toString().toInt()
                 showDrinksList()
             }
-            findViewById<LinearLayout>(R.id.drink_list).addView(layout)
+            verticalLayout1.addView(layout)
+            verticalLayout1.addView(checkLayout)
+            findViewById<LinearLayout>(R.id.drink_list).addView(verticalLayout1)
             val mParams: LinearLayout.LayoutParams = layout.layoutParams as LinearLayout.LayoutParams
             mParams.width = 50.dpToPixels(this).toInt()
-            mParams.setMargins(20.dpToPixels(this).toInt(), 0, 20.dpToPixels(this).toInt(), 0)
+            mParams.height = 50.dpToPixels(this).toInt()
+            mParams.setMargins(10.dpToPixels(this).toInt(), 0, 10.dpToPixels(this).toInt(), 0)
             layout.layoutParams = mParams
+            val nParams: LinearLayout.LayoutParams = checkLayout.layoutParams as LinearLayout.LayoutParams
+            nParams.width = 20.dpToPixels(this).toInt()
+            nParams.height = 20.dpToPixels(this).toInt()
+            nParams.setMargins(26.dpToPixels(this).toInt(), 0, 24.dpToPixels(this).toInt(), 0)
+            checkLayout.layoutParams = nParams
             layout.postInvalidate()
         }
 
