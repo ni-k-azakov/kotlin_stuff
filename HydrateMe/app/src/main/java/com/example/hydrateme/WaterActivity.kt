@@ -72,6 +72,8 @@ class WaterActivity : AppCompatActivity() {
             val checkLayout = LinearLayout(this)
             if (drink.id == currentDrinkId) {
                 checkLayout.setBackgroundResource(R.drawable.dot)
+            } else {
+                checkLayout.setBackgroundResource(R.drawable.dot_inactive)
             }
             layout.contentDescription = drink.id.toString()
             layout.setOnClickListener {
@@ -142,8 +144,7 @@ class WaterActivity : AppCompatActivity() {
     }
 
     fun addLiquid(view: View) {
-        val textView = view as TextView
-        val amount = (textView.text.toString().toFloat() * 1000).toInt()
+        val amount = (view.contentDescription.toString().toFloat() * 1000).toInt()
         waterInfo.addLiquid(currentDrinkId, drinkList[currentDrinkId].calc(amount), amount)
         updateInfo()
     }

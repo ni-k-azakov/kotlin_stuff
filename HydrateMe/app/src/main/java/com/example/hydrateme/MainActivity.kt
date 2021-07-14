@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             "Есть контакт! Первый день выполнения нормы",
             50,
             false,
-            0,
+            1,
                 R.drawable.achievement_1_day_n,
                 R.drawable.achievement_1_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 1 }
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
             "3 дня подряд. Маленькими шагами к здоровому будущему.",
             150,
             false,
-            0,
+            2,
                 R.drawable.achievement_3_day_n,
                 R.drawable.achievement_3_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 3 }
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
             "10 дней без пропусков. Отличный результат!",
             200,
             false,
-            0,
+            3,
                 R.drawable.achievement_10_day_n,
                 R.drawable.achievement_10_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 10 }
@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
             3, "Полезная привычка",
             "40 дней без перерыва. Это уже вошло в привычку!",
             300, false,
-            0,
+            5,
                 R.drawable.achievement_40_day_n,
                 R.drawable.achievement_40_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 40 }
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
             "Ого! Целых 100 дней подряд. Вот это результат!",
             1000,
             false,
-            0,
+            10,
                 R.drawable.achievement_100_day_n,
                 R.drawable.achievement_100_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 100 }
@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
             "Целый год! Вот это выдержка. Больше для вас нет преград!",
             2500,
             false,
-            0,
+            30,
                 R.drawable.achievement_365_day_n,
                 R.drawable.achievement_365_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 365 }
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity() {
             "Вы попробовали все возможные напитки!",
             500,
             true,
-            0,
+            10,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_all_drinks
         ) { level: Int -> level >= 8 }
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
             "Вы достигли 3-го уровня.",
             100,
             true,
-            0,
+            1,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_3_lvl
         ) { level: Int -> level >= 3 }
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity() {
             "Вы достигли 10-го уровня.",
             150,
             true,
-            0,
+            2,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_10_lvl
         ) { level: Int -> level >= 10 }
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity() {
             "Вы достигли 20-го уровня.",
             300,
             true,
-            0,
+            5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_20_lvl
         ) { level: Int -> level >= 20 }
@@ -207,7 +207,7 @@ class MainActivity : AppCompatActivity() {
             "Вы достигли 30-го уровня.",
             500,
             true,
-            0,
+            10,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_30_lvl
         ) { level: Int -> level >= 30 }
@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
             "Вы достигли 50-го уровня.",
             700,
             true,
-            0,
+            30,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_50_lvl
         ) { level: Int -> level >= 50 }
@@ -227,7 +227,7 @@ class MainActivity : AppCompatActivity() {
             "Месяц без алкоголя.",
             250,
             true,
-            0,
+            10,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_alco
         ) { dayInRow: Int -> dayInRow >= 30 }
@@ -237,7 +237,7 @@ class MainActivity : AppCompatActivity() {
             "Месяц без кофе.",
             250,
             true,
-            0,
+            10,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_coffee
         ) { dayInRow: Int -> dayInRow >= 30 }
@@ -279,6 +279,7 @@ class MainActivity : AppCompatActivity() {
                     if (achState.first) {
                         profile.completedAchievmentsIdList.add(achievement.id)
                         profile.currentExp += achievement.exp
+                        profile.money += achievement.reward
                         var toasted = false
                         for (id in toastedList.toastedAchievments) {
                             if (id == achievement.id) {
@@ -301,6 +302,7 @@ class MainActivity : AppCompatActivity() {
                     if (achState.first) {
                         profile.completedAchievmentsIdList.add(achievement.id)
                         profile.currentExp += achievement.exp
+                        profile.money += achievement.reward
                         var toasted = false
                         for (id in toastedList.toastedAchievments) {
                             if (id == achievement.id) {
@@ -323,6 +325,7 @@ class MainActivity : AppCompatActivity() {
                     if (achState.first) {
                         profile.completedAchievmentsIdList.add(achievement.id)
                         profile.currentExp += achievement.exp
+                        profile.money += achievement.reward
                         var toasted = false
                         for (id in toastedList.toastedAchievments) {
                             if (id == achievement.id) {
@@ -558,7 +561,7 @@ class MainActivity : AppCompatActivity() {
             ).toInt()
         }
         findViewById<TextView>(R.id.waterPercentage).text = getString(R.string.percentage, percent)
-
+        findViewById<TextView>(R.id.moneyField).text = getString(R.string.int_number, profile.money)
         waterLoadingView = findViewById(R.id.waveLoaderView)
         waterLoadingView.progressValue = percent
         waterLoadingView.bottomTitle = String.format("%d%%", percent)

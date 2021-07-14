@@ -19,6 +19,7 @@ class Profile : Serializable {
     var sex: Byte = 0
     var actTime: Float = 2.0F
     var weight: Float = 72.0F
+    var money: Int = 0
     val completedAchievmentsIdList: MutableList<Byte> = mutableListOf()
     val availableAvatarIdList: MutableList<Byte> = mutableListOf()
 }

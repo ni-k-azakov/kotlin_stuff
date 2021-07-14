@@ -87,6 +87,7 @@ class SettingsActivity : AppCompatActivity() {
         activeTimeView.setText(String.format("%.2f", profile.actTime))
         val weightView = findViewById<EditText>(R.id.weightEditText)
         weightView.setText(String.format("%.1f", profile.weight))
+        findViewById<TextView>(R.id.moneyField).text = getString(R.string.int_number, profile.money)
     }
 
     fun fillAvatarList() {

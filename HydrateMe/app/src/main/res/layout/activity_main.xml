@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E7F0F6"
-    android:onClick="swapAvatar"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -14,11 +13,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scrollbars="none">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -128,6 +127,34 @@
                         android:layout_height="wrap_content"
                         android:text="@string/progress_text"
                         android:textAlignment="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/star_big">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/moneyField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:text="@string/int_number"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -268,27 +295,27 @@
                     android:layout_centerInParent="true"
                     android:gravity="center"
                     app:hdBarCanBeClick="true"
+                    app:hdBarCanBeToggle="true"
                     app:hdBarHeight="170dp"
-                    app:hdBarWidth="25dp"
                     app:hdBarRadius="10dp"
-                    app:hdMaxValue="10"
-                    app:hdEmptyColor="@color/light_grey"
-                    app:hdProgressColor="@color/blue_number"
-                    app:hdProgressClickColor="@color/blue_progress_click"
-                    app:hdPinBackgroundColor="@color/pin_background"
-                    app:hdPinTextColor="@color/white"
-                    app:hdPinPaddingBottom="5dp"
                     app:hdBarTitleColor="@color/bar_title_color"
+                    app:hdBarTitleMarginTop="9dp"
+                    app:hdBarTitleSelectedColor="@color/blue_number"
                     app:hdBarTitleTxtSize="12sp"
-                    app:hdPinTxtSize="17sp"
-                    app:hdPinMarginTop="25dp"
+                    app:hdBarWidth="25dp"
+                    app:hdEmptyColor="@color/light_grey"
+                    app:hdMaxValue="10"
+                    app:hdPinBackgroundColor="@color/pin_background"
+                    app:hdPinDrawable="@drawable/ic_pin"
                     app:hdPinMarginBottom="55dp"
                     app:hdPinMarginEnd="8dp"
-                    app:hdBarTitleMarginTop="9dp"
-                    app:hdPinDrawable="@drawable/ic_pin"
-                    app:hdProgressDisableColor="@color/progress_disable"
-                    app:hdBarTitleSelectedColor="@color/blue_number"
-                    app:hdBarCanBeToggle="true"/>
+                    app:hdPinMarginTop="25dp"
+                    app:hdPinPaddingBottom="5dp"
+                    app:hdPinTextColor="@color/white"
+                    app:hdPinTxtSize="17sp"
+                    app:hdProgressClickColor="@color/blue_progress_click"
+                    app:hdProgressColor="@color/blue_number"
+                    app:hdProgressDisableColor="@color/progress_disable" />
 
             </androidx.cardview.widget.CardView>
 
