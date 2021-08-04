@@ -39,8 +39,12 @@ class MainActivity : AppCompatActivity() {
         fillAchievments()
 
         fillDrinksList()
+        val currentDayInRow = waterInfo.getDayInRow()
         if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime)) && waterInfo.getDayInRow() != 0) {
             profile.currentExp += 50
+        }
+        if (currentDayInRow < waterInfo.getDayInRow()) {
+            profile.money += 1
         }
         dataSaver()
     }
@@ -52,8 +56,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         dataLoader()
+        val currentDayInRow = waterInfo.getDayInRow()
         if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime)) && waterInfo.getDayInRow() != 0) {
             profile.currentExp += 50
+        }
+        if (currentDayInRow < waterInfo.getDayInRow()) {
+            profile.money += 1
         }
         lvlCheck()
         updateViews()
@@ -145,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_day_100_des,
             1000,
             false,
-            10,
+            5,
                 R.drawable.achievement_100_day_n,
                 R.drawable.achievement_100_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 100 }
@@ -155,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_day_365_des,
             2500,
             false,
-            30,
+            10,
                 R.drawable.achievement_365_day_n,
                 R.drawable.achievement_365_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 365 }
@@ -165,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_all_des,
             500,
             true,
-            10,
+            5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_all_drinks
         ) { level: Int -> level >= 8 }
@@ -205,7 +213,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_lvl_30_des,
             0,
             true,
-            10,
+            5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_30_lvl
         ) { level: Int -> level >= 30 }
@@ -215,7 +223,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_lvl_50_des,
             0,
             true,
-            30,
+            10,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_50_lvl
         ) { level: Int -> level >= 50 }
@@ -225,7 +233,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_alco_des,
             250,
             true,
-            10,
+            5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_alco
         ) { dayInRow: Int -> dayInRow >= 30 }
@@ -235,7 +243,7 @@ class MainActivity : AppCompatActivity() {
                 R.string.ach_coffee_des,
             250,
             true,
-            10,
+            5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_coffee
         ) { dayInRow: Int -> dayInRow >= 30 }
@@ -351,16 +359,19 @@ class MainActivity : AppCompatActivity() {
                 R.string.trophy_amount,
                 profile.completedAchievmentsIdList.size
             )
+            findViewById<TextView>(R.id.moneyField).text = getString(R.string.int_number, profile.money)
             updateAchievments()
         }
     }
 
     private fun lvlCheck() {
         val expToLvlUp = { x: Int -> x * 50}
+        val currentLvl = profile.lvl
         while (expToLvlUp(profile.lvl) <= profile.currentExp) {
             profile.currentExp -= expToLvlUp(profile.lvl)
             profile.lvl += 1
         }
+        profile.money += profile.lvl - currentLvl
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         findViewById<TextView>(R.id.progressTextInfo).text = getString(
             R.string.progress_text, profile.currentExp, expToLvlUp(
