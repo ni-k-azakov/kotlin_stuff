@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var waterInfo: WaterInfo
     private lateinit var waterLoadingView: WaveLoadingView
     private lateinit var toastedList: ToastedList
-    private val achievementList: MutableList<Achievment> = mutableListOf()
+    private val achievementList: MutableList<Achievement> = mutableListOf()
     private lateinit var profile: Profile
     private val drinkList: MutableList<Drink> = mutableListOf()
     private val dataList: MutableList<BarData> = mutableListOf()
@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dataLoader()
-
-        fillAchievmentList()
+        fillAchievementList()
         fillAchievments()
 
         fillDrinksList()
@@ -91,7 +90,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun dataSaver() {
-        profile.name = findViewById<EditText>(R.id.editTextTextPersonName).text.toString()
         var outputStream = ObjectOutputStream(FileOutputStream(this.filesDir.absolutePath + "/water_info_debug.dat"))
         outputStream.writeObject(waterInfo.storage)
 
@@ -102,10 +100,10 @@ class MainActivity : AppCompatActivity() {
         outputStream.writeObject(toastedList)
     }
 
-    private fun fillAchievmentList() {
-        var achievement = Achievment(
-            0, "Первые шаги",
-            "Есть контакт! Первый день выполнения нормы",
+    private fun fillAchievementList() {
+        var achievement = Achievement(
+            0, R.string.ach_day_1,
+                R.string.ach_day_1_des,
             50,
             false,
             1,
@@ -113,9 +111,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_1_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 1 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            1, "Уверенное начало",
-            "3 дня подряд. Маленькими шагами к здоровому будущему.",
+        achievement = Achievement(
+            1, R.string.ach_day_3,
+                R.string.ach_day_3_des,
             150,
             false,
             2,
@@ -123,9 +121,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_3_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 3 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            2, "В здоровом теле",
-            "10 дней без пропусков. Отличный результат!",
+        achievement = Achievement(
+            2, R.string.ach_day_10,
+                R.string.ach_day_10_des,
             200,
             false,
             3,
@@ -133,18 +131,18 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_10_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 10 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            3, "Полезная привычка",
-            "40 дней без перерыва. Это уже вошло в привычку!",
+        achievement = Achievement(
+            3, R.string.ach_day_40,
+                R.string.ach_day_40_des,
             300, false,
             5,
                 R.drawable.achievement_40_day_n,
                 R.drawable.achievement_40_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 40 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            4, "Просветлённый",
-            "Ого! Целых 100 дней подряд. Вот это результат!",
+        achievement = Achievement(
+            4, R.string.ach_day_100,
+                R.string.ach_day_100_des,
             1000,
             false,
             10,
@@ -152,9 +150,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_100_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 100 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            5, "Тот, кого нельзя не называть",
-            "Целый год! Вот это выдержка. Больше для вас нет преград!",
+        achievement = Achievement(
+            5, R.string.ach_day_365,
+                R.string.ach_day_365_des,
             2500,
             false,
             30,
@@ -162,9 +160,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_365_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 365 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            6, "Любитель разнообразия",
-            "Вы попробовали все возможные напитки!",
+        achievement = Achievement(
+            6, R.string.ach_all,
+                R.string.ach_all_des,
             500,
             true,
             10,
@@ -172,59 +170,59 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_all_drinks
         ) { level: Int -> level >= 8 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            7, "Постижение основ",
-            "Вы достигли 3-го уровня.",
-            100,
+        achievement = Achievement(
+            7, R.string.ach_lvl_3,
+                R.string.ach_lvl_3_des,
+            0,
             true,
             1,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_3_lvl
         ) { level: Int -> level >= 3 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            8, "Самоучка",
-            "Вы достигли 10-го уровня.",
-            150,
+        achievement = Achievement(
+            8, R.string.ach_lvl_10,
+                R.string.ach_lvl_10_des,
+            0,
             true,
             2,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_10_lvl
         ) { level: Int -> level >= 10 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            9, "Старательный ученик",
-            "Вы достигли 20-го уровня.",
-            300,
+        achievement = Achievement(
+            9, R.string.ach_lvl_20,
+                R.string.ach_lvl_20_des,
+            0,
             true,
             5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_20_lvl
         ) { level: Int -> level >= 20 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            10, "Уверенный любитель",
-            "Вы достигли 30-го уровня.",
-            500,
+        achievement = Achievement(
+            10, R.string.ach_lvl_30,
+                R.string.ach_lvl_30_des,
+            0,
             true,
             10,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_30_lvl
         ) { level: Int -> level >= 30 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            11, "Мудрый наставник",
-            "Вы достигли 50-го уровня.",
-            700,
+        achievement = Achievement(
+            11, R.string.ach_lvl_50,
+                R.string.ach_lvl_50_des,
+            0,
             true,
             30,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_50_lvl
         ) { level: Int -> level >= 50 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            12, "Трезвость- моё второе имя",
-            "Месяц без алкоголя.",
+        achievement = Achievement(
+            12, R.string.ach_alco,
+                R.string.ach_alco_des,
             250,
             true,
             10,
@@ -232,9 +230,9 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.achievement_alco
         ) { dayInRow: Int -> dayInRow >= 30 }
         achievementList.add(achievement)
-        achievement = Achievment(
-            13, "Спокойствие на максимум",
-            "Месяц без кофе.",
+        achievement = Achievement(
+            13, R.string.ach_coffee,
+                R.string.ach_coffee_des,
             250,
             true,
             10,
@@ -245,19 +243,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun fillDrinksList() {
-        var drink = Drink(0, "Вода", R.drawable.water, 1.0F)
+        var drink = Drink(0, R.string.drink_water, R.drawable.water, 1.0F)
         drinkList.add(drink)
-        drink = Drink(1, "Вода с газом", R.drawable.water_gas, 0.8F)
+        drink = Drink(1, R.string.drink_water_gas, R.drawable.water_gas, 0.8F)
         drinkList.add(drink)
-        drink = Drink(2, "Чай", R.drawable.tea, 0.85F)
+        drink = Drink(2, R.string.drink_tea, R.drawable.tea, 0.85F)
         drinkList.add(drink)
-        drink = Drink(3, "Кофе", R.drawable.coffee, 0.6F)
+        drink = Drink(3, R.string.drink_coffee, R.drawable.coffee, 0.6F)
         drinkList.add(drink)
-        drink = Drink(4, "Кофе с молоком", R.drawable.coffee_milk, 0.2F)
+        drink = Drink(4, R.string.drink_coffee_milk, R.drawable.coffee_milk, 0.2F)
         drinkList.add(drink)
-        drink = Drink(5, "Алкоголь", R.drawable.alco, -1.6F)
+        drink = Drink(5, R.string.drink_alco, R.drawable.alco, -1.6F)
         drinkList.add(drink)
-        drink = Drink(6, "Энергетик", R.drawable.energy, -0.8F)
+        drink = Drink(6, R.string.drink_energy, R.drawable.energy, -0.8F)
         drinkList.add(drink)
     }
 
@@ -289,7 +287,7 @@ class MainActivity : AppCompatActivity() {
                         if (!toasted) {
                             Toast.makeText(
                                 this,
-                                achievement.name + "\n" + achievement.description,
+                                getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
                                 Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
@@ -312,7 +310,7 @@ class MainActivity : AppCompatActivity() {
                         if (!toasted) {
                             Toast.makeText(
                                 this,
-                                achievement.name + "\n" + achievement.description,
+                                getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
                                 Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
@@ -335,7 +333,7 @@ class MainActivity : AppCompatActivity() {
                         if (!toasted) {
                             Toast.makeText(
                                 this,
-                                achievement.name + "\n" + achievement.description,
+                                getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
                                 Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
@@ -380,7 +378,7 @@ class MainActivity : AppCompatActivity() {
             val layout = LinearLayout(this)
             layout.setBackgroundResource(achievement.resourceUndone)
             val text = TextView(this)
-            text.text = if (achievement.isSecret) "?" else achievement.name
+            text.text = if (achievement.isSecret) "?" else getText(achievement.nameResource)
             text.minLines = 2
             text.maxLines = 2
             text.ellipsize = TextUtils.TruncateAt.END
@@ -389,9 +387,9 @@ class MainActivity : AppCompatActivity() {
                 if (id == achievement.id) {
                     layout.setBackgroundResource(achievement.resourceDone)
                     layout.setOnClickListener {
-                        Toast.makeText(this, achievement.description, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getText(achievement.descriptionResource), Toast.LENGTH_SHORT).show()
                     }
-                    text.text = achievement.name
+                    text.text = getText(achievement.nameResource)
                 }
             }
 
@@ -466,7 +464,7 @@ class MainActivity : AppCompatActivity() {
             iconLayout.setBackgroundResource(drink.resourceId)
 
             val text = TextView(this)
-            text.text = drink.name
+            text.setText(drink.name)
             text.maxLines = 1
             text.isSingleLine = true
             text.ellipsize = TextUtils.TruncateAt.END
@@ -550,7 +548,7 @@ class MainActivity : AppCompatActivity() {
                 profile.sex
             )(profile.weight, profile.actTime)
         )
-        val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0) {
+        val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0F) {
             0
         } else {
             floor(
@@ -613,9 +611,6 @@ class MainActivity : AppCompatActivity() {
                 waterInfo.getHighestScore()
         )
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
-        findViewById<EditText>(R.id.editTextTextPersonName).setText(
-                profile.name,
-                TextView.BufferType.EDITABLE
-        )
+        findViewById<TextView>(R.id.personName).text = profile.name
     }
 }

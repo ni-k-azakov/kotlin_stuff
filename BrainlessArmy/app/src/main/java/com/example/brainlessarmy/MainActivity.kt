@@ -78,10 +78,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         UnitFactory.createUnitType("Рабочий", Color.CYAN, 20, 2, 5, 100, 0, UnitType.MINION)
-        UnitFactory.createUnitType("Фабрика", Color.MAGENTA, 10, 0, 1, 100, 0, UnitType.SOURCE)
-        UnitFactory.createUnitType("Склад", Color.GREEN, 10, 0, 1, 100, 0, UnitType.STORAGE)
+        UnitFactory.createUnitType("Фабрика", Color.MAGENTA, 10, 1, 2, 100, 0, UnitType.SOURCE)
+        UnitFactory.createUnitType("Склад", Color.GREEN, 10, 1, 2, 100, 0, UnitType.STORAGE)
         UnitFactory.createUnitType("Разведчик", Color.GRAY, 20, 4, 7, 100, 0, UnitType.PATHFINDER)
-        UnitFactory.createUnitType("Замок дебилов", Color.RED, 10, 0, 1, 10000, 50, UnitType.ENEMY)
+        UnitFactory.createUnitType("Замок дебилов", Color.RED, 10, 1, 2, 10000, 50, UnitType.ENEMY)
         UnitFactory.createUnitType("Воин", Color.GREEN, 10, 2, 4, 1000, 2, UnitType.ARMY)
         field.createUnit(90, 11, 50, 5000, "Фабрика")
         field.createUnit(90, 89, 130, 5000, "Фабрика")
@@ -91,10 +91,10 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until 200) {
             field.createUnit(50, 50, 2, 0, "Рабочий")
         }
-        for (i in 0 until 50) {
-            field.createUnit(50, 50, 2, 0, "Разведчик")
-        }
-        for (i in 0 until 50) {
+//        for (i in 0 until 50) {
+//            field.createUnit(50, 50, 2, 0, "Разведчик")
+//        }
+        for (i in 0 until 150) {
             field.createUnit(50, 50, 2, 0, "Воин")
         }
         // Помещаем холст в фрагмент

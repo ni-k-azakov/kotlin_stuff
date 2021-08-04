@@ -40,19 +40,19 @@ class WaterActivity : AppCompatActivity() {
     }
 
     private fun fillDrinksList() {
-        var drink = Drink(0, "Вода", R.drawable.water, 1.0F)
+        var drink = Drink(0, R.string.drink_water, R.drawable.water, 1.0F)
         drinkList.add(drink)
-        drink = Drink(1, "Вода с газом", R.drawable.water_gas, 0.8F)
+        drink = Drink(1, R.string.drink_water_gas, R.drawable.water_gas, 0.8F)
         drinkList.add(drink)
-        drink = Drink(2, "Чай", R.drawable.tea, 0.85F)
+        drink = Drink(2, R.string.drink_tea, R.drawable.tea, 0.85F)
         drinkList.add(drink)
-        drink = Drink(3, "Кофе", R.drawable.coffee, 0.6F)
+        drink = Drink(3, R.string.drink_coffee, R.drawable.coffee, 0.6F)
         drinkList.add(drink)
-        drink = Drink(4, "Кофе с молоком", R.drawable.coffee_milk, 0.2F)
+        drink = Drink(4, R.string.drink_coffee_milk, R.drawable.coffee_milk, 0.2F)
         drinkList.add(drink)
-        drink = Drink(5, "Алкоголь", R.drawable.alco, -1.6F)
+        drink = Drink(5, R.string.drink_alco, R.drawable.alco, -1.6F)
         drinkList.add(drink)
-        drink = Drink(6, "Энергетик", R.drawable.energy, -0.8F)
+        drink = Drink(6, R.string.drink_energy, R.drawable.energy, -0.8F)
         drinkList.add(drink)
     }
 
@@ -129,7 +129,7 @@ class WaterActivity : AppCompatActivity() {
 
     fun updateInfo() {
         findViewById<TextView>(R.id.waterIsFrom).text = getString(R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(profile.sex)(profile.weight, profile.actTime))
-        val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0) {
+        val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0F) {
             0
         } else {
             floor((waterInfo.getCurrentWater().toDouble() / 1000 / getFormula(profile.sex)(profile.weight, profile.actTime)) * 100).toInt()

@@ -93,9 +93,9 @@ class SettingsActivity : AppCompatActivity() {
     fun fillAvatarList() {
         var avatar = Avatar(
             0,
-            "Синяя капля",
+            R.string.avatar_blue_drop,
             R.drawable.drop,
-            "Базовый аватар",
+            R.string.avatar_base_des,
             ConditionType.NONE,
             0
         )
@@ -103,9 +103,9 @@ class SettingsActivity : AppCompatActivity() {
 
         avatar = Avatar(
             1,
-            "Розовая капля",
+            R.string.avatar_pink_drop,
             R.drawable.drop_female,
-            "Базовый аватар",
+            R.string.avatar_base_des,
             ConditionType.NONE,
             0
         )
@@ -120,8 +120,8 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: PagerVH, position: Int) = holder.itemView.run {
             findViewById<ConstraintLayout>(R.id.avatarHolder).setBackgroundResource(avatarList[position].resourceId)
-            findViewById<TextView>(R.id.avatarName).text = avatarList[position].name
-            findViewById<TextView>(R.id.conditionText).text = avatarList[position].conditionDescription
+            findViewById<TextView>(R.id.avatarName).setText(avatarList[position].nameResource)
+            findViewById<TextView>(R.id.conditionText).setText(avatarList[position].conditionDescriptionResource)
             if (currentAvatarId == avatarList[position].id) {
                 findViewById<ProgressBar>(R.id.avatarProgressBar).visibility = View.INVISIBLE
             } else {

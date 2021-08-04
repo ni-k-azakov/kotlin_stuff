@@ -10,8 +10,7 @@ class DataStorage : Serializable {
     var highestScore: Int = 0
     private val drinks: MutableMap<Int, Int> = mutableMapOf()
     val drinksAllTime: MutableMap<Int, Map<Int, Int>> = mutableMapOf()
-    var waterStat = mutableListOf<Int>()
-
+    var waterStat = mutableListOf<Int>(0)
     fun addLiquid(amount: Int) {
         waterStat[waterStat.lastIndex] += amount
     }
@@ -30,7 +29,6 @@ class DataStorage : Serializable {
 
     fun addNewDay() {
         waterStat.add(0)
-        println("ADDED")
     }
 
     fun updateHighest() {

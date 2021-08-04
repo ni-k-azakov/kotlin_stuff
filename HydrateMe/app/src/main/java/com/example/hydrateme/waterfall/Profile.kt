@@ -10,9 +10,9 @@ class Profile : Serializable {
     var lvl = 1
     var avatar: Avatar = Avatar(
         0,
-        "Синяя капля",
+        R.string.avatar_blue_drop,
         R.drawable.drop,
-        "Базовый аватар",
+        R.string.avatar_base_des,
         ConditionType.NONE,
         0
     )

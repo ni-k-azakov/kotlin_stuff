@@ -47,14 +47,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <EditText
-                        android:id="@+id/editTextTextPersonName"
+                    <TextView
+                        android:id="@+id/personName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
                         android:ems="10"
-                        android:hint="@string/name_hint"
-                        android:inputType="textPersonName"
                         android:textAlignment="center"
                         android:textColor="@color/blue_number"
                         android:textSize="24sp"
@@ -203,7 +200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="10dp"
-                            android:text="дней подряд"
+                            android:text="@string/days_in_row_text"
                             android:textAlignment="center"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -250,7 +247,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:gravity="center"
                         android:text="@string/percentage"
                         android:textAlignment="textEnd"
                         android:textColor="@color/black"
@@ -283,7 +279,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Статистика"
+                    android:text="@string/stat_section"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -355,7 +351,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Напитки сегодня"
+                    android:text="@string/daily_section"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -373,7 +369,7 @@
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Достижения"
+                    android:text="@string/achievement_section"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />

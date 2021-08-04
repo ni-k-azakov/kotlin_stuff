@@ -2,7 +2,7 @@ package com.example.hydrateme.waterfall
 
 import java.io.Serializable
 
-class Avatar(val id: Int, val name: String, val resourceId: Int, val conditionDescription: String, val conditionType: ConditionType, private val conditionValue: Int) : Serializable {
+class Avatar(val id: Int, val nameResource: Int, val resourceId: Int, val conditionDescriptionResource: Int, val conditionType: ConditionType, private val conditionValue: Int) : Serializable {
     fun isUpdated(value: Int): Boolean {
         return value >= conditionValue
     }
