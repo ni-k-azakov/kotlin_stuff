@@ -148,4 +148,9 @@ class WaterActivity : AppCompatActivity() {
         waterInfo.addLiquid(currentDrinkId, drinkList[currentDrinkId].calc(amount), amount)
         updateInfo()
     }
+
+    fun resetWater(view: View) {
+        waterInfo.reset()
+        updateInfo()
+    }
 }

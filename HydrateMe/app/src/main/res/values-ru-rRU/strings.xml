@@ -60,4 +60,22 @@
     <string name="avatar_blue_drop">Синяя капля</string>
     <string name="avatar_pink_drop">Розовая капля</string>
     <string name="avatar_base_des">Базовый аватар</string>
+    <string name="reset_water">Сброс</string>
+    <string name="hello_launch">Привет! Как тебя зовут?</string>
+    <string name="sex_launch">Какой у тебя пол?</string>
+    <string name="weight_launch">Сколько ты весишь?</string>
+    <string name="blank_field_launch">пустое поле</string>
+    <string name="act_time_launch">Как долго ты занимаешься?</string>
+    <string name="next_launch">Дальше</string>
+    <string name="done_launch">Готово</string>
+    <string name="act_time_error_launch">часов в сутки</string>
+    <string name="chronology_string">Хронология</string>
+    <string name="simple_string">Обычный</string>
+    <string name="empty_chronology_message">Сегодня вы ничего не пили</string>
+    <string name="customization">Кастомизация</string>
+    <string name="floppa_test">Флоппа (большой)</string>
+    <string name="avatar_rating_des">Оцените приложение</string>
+    <string name="floppa_test_description">Русский кот</string>
+    <string name="bingus_test">Бингус</string>
+    <string name="bingus_test_description">ЛГБТ+</string>
 </resources>

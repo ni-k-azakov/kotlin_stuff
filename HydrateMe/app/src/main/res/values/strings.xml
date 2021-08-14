@@ -13,6 +13,11 @@
     <string name="water_info">%.2f<small>l</small> of %.2f<small>l</small></string>
     <string name="name_hint">Your name</string>
     <string name="settings_heading">Settings</string>
+    <string name="reset_water">Reset</string>
+    <string name="chronology_string">Chronology</string>
+    <string name="simple_string">Simple</string>
+    <string name="empty_chronology_message">Add your first drink today</string>
+    <string name="customization">Customization</string>
 
     <string name="stat_section">Statistics</string>
     <string name="daily_section">Today drinks</string>
@@ -39,20 +44,20 @@
     <string name="ach_day_1_des">Your first day of staying hydrated.</string>
     <string name="ach_day_3">Little by little</string>
     <string name="ach_day_3_des">Three days in a row. Impressive!</string>
-    <string name="ach_day_10">Work hard. Dream big</string>
+    <string name="ach_day_10">Regularity</string>
     <string name="ach_day_10_des">Ten days passed. Purposefulness suits you!</string>
-    <string name="ach_day_40">You are your only limit</string>
+    <string name="ach_day_40">Harmony</string>
     <string name="ach_day_40_des">Forty days! Say hello to a good habit.</string>
-    <string name="ach_day_100">That’s a good one!</string>
+    <string name="ach_day_100">Aquaman</string>
     <string name="ach_day_100_des">Wow! 100 days. You are the chosen one!</string>
-    <string name="ach_day_365">Spread eagle</string>
+    <string name="ach_day_365">Unstoppable</string>
     <string name="ach_day_365_des">365 days… Nothing can stop you.</string>
 
-    <string name="ach_lvl_3">Getting the basics</string>
+    <string name="ach_lvl_3">Beginner</string>
     <string name="ach_lvl_3_des">You have reached level 3.</string>
     <string name="ach_lvl_10">Self-taught</string>
     <string name="ach_lvl_10_des">You have reached level 10.</string>
-    <string name="ach_lvl_20">Diligent student</string>
+    <string name="ach_lvl_20">Student</string>
     <string name="ach_lvl_20_des">You have reached level 20.</string>
     <string name="ach_lvl_30">Professional</string>
     <string name="ach_lvl_30_des">You have reached level 30.</string>
@@ -68,5 +73,22 @@
 
     <string name="avatar_blue_drop">Blue Blobby</string>
     <string name="avatar_pink_drop">Pink Blobby</string>
+    <string name="floppa_test">Floppa</string>
+    <string name="bingus_test">Bingus</string>
+    <string name="floppa_test_description">Russian cat</string>
+    <string name="bingus_test_description">Bingus club</string>
     <string name="avatar_base_des">Base avatar</string>
+    <string name="avatar_rating_des">Rate our app</string>
+    <string name="question_mark" translatable="false">\?</string>
+
+    <string name="hello_launch">Hey!\nWhat\'s your name?</string>
+    <string name="blank_field_launch">blank field</string>
+    <string name="sex_launch">Who are you?</string>
+    <string name="weight_launch">What is your weight?</string>
+    <string name="act_time_launch">What is your average workout duration?</string>
+    <string name="act_time_error_launch">hours per day</string>
+    <string name="next_launch">Next</string>
+    <string name="done_launch">Done</string>
+
+
 </resources>

@@ -5,4 +5,5 @@ enum class ConditionType {
     ADVERT,
     ACHIEVEMENT,
     RATING,
+    MONEY,
 }

@@ -1,5 +1,6 @@
 package com.example.hydrateme
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,6 @@ import java.io.*
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var profile: Profile
-    private val avatarList: MutableList<Avatar> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,31 +24,12 @@ class SettingsActivity : AppCompatActivity() {
 
         dataLoader()
         updateInfo()
-        fillAvatarList()
-        findViewById<ViewPager2>(R.id.avatarViewPager).adapter = ViewPagerAdapter(avatarList, 0)
-        findViewById<ViewPager2>(R.id.avatarViewPager).apply {
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-        }
-        findViewById<ViewPager2>(R.id.avatarViewPager).registerOnPageChangeCallback(
-            object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    if (position == profile.avatar.id) {
-                        findViewById<Button>(R.id.selectButton).visibility = View.INVISIBLE
-                        findViewById<TextView>(R.id.selectStatus).visibility = View.VISIBLE
-                    } else {
-                        findViewById<Button>(R.id.selectButton).visibility = View.VISIBLE
-                        findViewById<Button>(R.id.selectButton).setOnClickListener {
-                            profile.avatar = avatarList[position]
-                            findViewById<Button>(R.id.selectButton).visibility = View.INVISIBLE
-                            findViewById<TextView>(R.id.selectStatus).visibility = View.VISIBLE
-                        }
-                        findViewById<TextView>(R.id.selectStatus).visibility = View.INVISIBLE
-                    }
-                    super.onPageSelected(position)
-                }
-            }
-        )
+    }
+
+    override fun onResume() {
+        dataLoader()
+        updateInfo()
+        super.onResume()
     }
 
     override fun onPause() {
@@ -87,50 +68,10 @@ class SettingsActivity : AppCompatActivity() {
         activeTimeView.setText(String.format("%.2f", profile.actTime))
         val weightView = findViewById<EditText>(R.id.weightEditText)
         weightView.setText(String.format("%.1f", profile.weight))
-        findViewById<TextView>(R.id.moneyField).text = getString(R.string.int_number, profile.money)
     }
 
-    fun fillAvatarList() {
-        var avatar = Avatar(
-            0,
-            R.string.avatar_blue_drop,
-            R.drawable.drop,
-            R.string.avatar_base_des,
-            ConditionType.NONE,
-            0
-        )
-        avatarList.add(avatar)
-
-        avatar = Avatar(
-            1,
-            R.string.avatar_pink_drop,
-            R.drawable.drop_female,
-            R.string.avatar_base_des,
-            ConditionType.NONE,
-            0
-        )
-        avatarList.add(avatar)
+    fun startAvatarActivity(view: View) {
+        dataSaver()
+        startActivity(Intent(this, AvatarActivity::class.java))
     }
-
-    private class ViewPagerAdapter(val avatarList: MutableList<Avatar>, var currentAvatarId: Int) : RecyclerView.Adapter<PagerVH>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerVH =
-            PagerVH(LayoutInflater.from(parent.context).inflate(R.layout.item_page, parent, false))
-
-        override fun getItemCount(): Int = avatarList.size
-
-        override fun onBindViewHolder(holder: PagerVH, position: Int) = holder.itemView.run {
-            findViewById<ConstraintLayout>(R.id.avatarHolder).setBackgroundResource(avatarList[position].resourceId)
-            findViewById<TextView>(R.id.avatarName).setText(avatarList[position].nameResource)
-            findViewById<TextView>(R.id.conditionText).setText(avatarList[position].conditionDescriptionResource)
-            if (currentAvatarId == avatarList[position].id) {
-                findViewById<ProgressBar>(R.id.avatarProgressBar).visibility = View.INVISIBLE
-            } else {
-                findViewById<ProgressBar>(R.id.avatarProgressBar).visibility = View.INVISIBLE
-            }
-        }
-
-
-    }
-
-    class PagerVH(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -1,5 +1,7 @@
 package com.example.hydrateme.waterfall
 
+import java.util.*
+
 class WaterInfo(val storage: DataStorage) {
     fun addLiquid(id: Int, amountWithCoef: Int, amount: Int) {
         storage.addLiquid(amountWithCoef)
@@ -45,7 +47,15 @@ class WaterInfo(val storage: DataStorage) {
         return storage.getDrinkAmount(id)
     }
 
+    fun getChronology(): MutableList<Triple<Int, Int, Date>> {
+        return storage.getDailyDrinkInfo()
+    }
+
     fun getLastWeekStat(): List<Int> {
         return storage.getLastWeekStat()
+    }
+
+    fun reset() {
+        storage.resetLastDay()
     }
 }
