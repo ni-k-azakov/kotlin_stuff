@@ -29,7 +29,6 @@ class WaterInfo(val storage: DataStorage) {
             for (i in 0 until range) {
                 storage.addNewDay()
             }
-            storage.clearTodayDrinks()
             return true
         }
         return false
@@ -57,5 +56,9 @@ class WaterInfo(val storage: DataStorage) {
 
     fun reset() {
         storage.resetLastDay()
+    }
+
+    fun checkMonthUnusage(drinkId: Int): Int {
+        return storage.checkMonthUnusage(drinkId)
     }
 }

@@ -11,7 +11,7 @@ class DataStorage : Serializable {
     var highestScore: Int = 0
     private val drinks: MutableMap<Int, Int> = mutableMapOf()
     private val drinksWithChronology: MutableList<Triple<Int, Int, Date>> = mutableListOf()
-    val drinksAllTime: MutableMap<Int, Map<Int, Int>> = mutableMapOf()
+    val drinksAllTime: MutableList<Map<Int, Int>> = mutableListOf()
     var waterStat = mutableListOf<Int>(0)
 
     fun addLiquid(amount: Int) {
@@ -33,6 +33,8 @@ class DataStorage : Serializable {
     }
 
     fun addNewDay() {
+        drinksAllTime.add(drinks.toMutableMap())
+        clearTodayDrinks()
         waterStat.add(0)
     }
 
@@ -66,5 +68,18 @@ class DataStorage : Serializable {
         drinks.clear()
         drinksWithChronology.clear()
         waterStat[waterStat.lastIndex] = 0
+    }
+
+    fun checkMonthUnusage(drinkId: Int): Int {
+        return if (drinksAllTime.size < 31) {
+            0
+        } else {
+            for (i in 0 until 31) {
+                if (drinksAllTime[drinksAllTime.lastIndex - i].containsKey(drinkId)){
+                    return 0
+                }
+            }
+            1
+        }
     }
 }

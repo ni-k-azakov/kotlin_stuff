@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                 5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_alco
-        ) { dayInRow: Int -> dayInRow >= 30 }
+        ) { unused: Int -> unused == 1 }
         achievementList.add(achievement)
         achievement = Achievement(
                 13, R.string.ach_coffee,
@@ -248,7 +248,7 @@ class MainActivity : AppCompatActivity() {
                 5,
                 R.drawable.achievement_hidden,
                 R.drawable.achievement_coffee
-        ) { dayInRow: Int -> dayInRow >= 30 }
+        ) { unused: Int -> unused == 1 }
         achievementList.add(achievement)
     }
 
@@ -356,8 +356,31 @@ class MainActivity : AppCompatActivity() {
                         updated = true
                     }
                 }
-                in 12 until 14 -> {
-                    val achState = achievement.isUpdated(waterInfo.getDayInRow())
+                12.toByte() -> {
+                    val achState = achievement.isUpdated(waterInfo.checkMonthUnusage(5))
+                    if (achState.first) {
+                        profile.completedAchievmentsIdList.add(achievement.id)
+                        profile.currentExp += achievement.exp
+                        profile.money += achievement.reward
+                        var toasted = false
+                        for (id in toastedList.toastedAchievments) {
+                            if (id == achievement.id) {
+                                toasted = true
+                            }
+                        }
+                        if (!toasted) {
+                            Toast.makeText(
+                                    this,
+                                    getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
+                                    Toast.LENGTH_LONG
+                            ).show()
+                            toastedList.addAchievement(achievement.id)
+                        }
+                        updated = true
+                    }
+                }
+                13.toByte() -> {
+                    val achState = achievement.isUpdated(waterInfo.checkMonthUnusage(3))
                     if (achState.first) {
                         profile.completedAchievmentsIdList.add(achievement.id)
                         profile.currentExp += achievement.exp
