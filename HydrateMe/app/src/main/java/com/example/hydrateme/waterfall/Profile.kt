@@ -16,6 +16,20 @@ class Profile : Serializable {
         ConditionType.NONE,
         0
     )
+    var hat: Clothes = Clothes(
+        0,
+        R.string.nothing,
+        R.drawable.nothing,
+        ConditionType.NONE,
+        0
+    )
+    var mask: Clothes = Clothes(
+        0,
+        R.string.nothing,
+        R.drawable.nothing,
+        ConditionType.NONE,
+        0
+    )
     var sex: Byte = 0
     var actTime: Float = 2.0F
     var weight: Float = 72.0F
@@ -23,4 +37,6 @@ class Profile : Serializable {
     var advertCoins: Int = 0
     val completedAchievmentsIdList: MutableList<Byte> = mutableListOf()
     val availableAvatarIdList: MutableList<Byte> = mutableListOf(0, 1)
+    val availableMaskIdList: MutableList<Byte> = mutableListOf(0)
+    val availableHatIdList: MutableList<Byte> = mutableListOf(0)
 }

@@ -13,6 +13,10 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.hydrateme.waterfall.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.hadiidbouk.charts.BarData
 import com.hadiidbouk.charts.ChartProgressBar
 import me.itangqi.waveloadingview.WaveLoadingView
@@ -30,17 +34,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var profile: Profile
     private val drinkList: MutableList<Drink> = mutableListOf()
     private val dataList: MutableList<BarData> = mutableListOf()
+    private lateinit var mAdView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         dataLoader()
+
+        MobileAds.initialize(this)
+        mAdView = findViewById(R.id.adView)
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
         fillAchievementList()
         fillAchievments()
 
         fillDrinksList()
         val currentDayInRow = waterInfo.getDayInRow()
-        if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime)) && waterInfo.getDayInRow() != 0) {
+        if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime))) {
             profile.currentExp += 50
         }
         if (currentDayInRow < waterInfo.getDayInRow()) {
@@ -54,10 +65,20 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
+    override fun onPause() {
+        mAdView.pause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        mAdView.destroy()
+        super.onDestroy()
+    }
+
     override fun onResume() {
         dataLoader()
         val currentDayInRow = waterInfo.getDayInRow()
-        if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime)) && waterInfo.getDayInRow() != 0) {
+        if (waterInfo.dayPassed(getFormula(profile.sex)(profile.weight, profile.actTime))) {
             profile.currentExp += 50
         }
         if (currentDayInRow < waterInfo.getDayInRow()) {
@@ -74,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         updateGraph()
         updateAvatar()
         super.onResume()
+        mAdView.resume()
     }
 
     private fun dataLoader() {
@@ -112,142 +134,142 @@ class MainActivity : AppCompatActivity() {
 
     private fun fillAchievementList() {
         var achievement = Achievement(
-                0, R.string.ach_day_1,
-                R.string.ach_day_1_des,
-                50,
-                false,
-                1,
-                R.drawable.achievement_1_day_n,
-                R.drawable.achievement_1_day
+            0, R.string.ach_day_1,
+            R.string.ach_day_1_des,
+            50,
+            false,
+            1,
+            R.drawable.achievement_1_day_n,
+            R.drawable.achievement_1_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 1 }
         achievementList.add(achievement)
         achievement = Achievement(
-                1, R.string.ach_day_3,
-                R.string.ach_day_3_des,
-                150,
-                false,
-                2,
-                R.drawable.achievement_3_day_n,
-                R.drawable.achievement_3_day
+            1, R.string.ach_day_3,
+            R.string.ach_day_3_des,
+            150,
+            false,
+            2,
+            R.drawable.achievement_3_day_n,
+            R.drawable.achievement_3_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 3 }
         achievementList.add(achievement)
         achievement = Achievement(
-                2, R.string.ach_day_10,
-                R.string.ach_day_10_des,
-                200,
-                false,
-                3,
-                R.drawable.achievement_10_day_n,
-                R.drawable.achievement_10_day
+            2, R.string.ach_day_10,
+            R.string.ach_day_10_des,
+            200,
+            false,
+            3,
+            R.drawable.achievement_10_day_n,
+            R.drawable.achievement_10_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 10 }
         achievementList.add(achievement)
         achievement = Achievement(
-                3, R.string.ach_day_40,
-                R.string.ach_day_40_des,
-                300, false,
-                5,
-                R.drawable.achievement_40_day_n,
-                R.drawable.achievement_40_day
+            3, R.string.ach_day_40,
+            R.string.ach_day_40_des,
+            300, false,
+            5,
+            R.drawable.achievement_40_day_n,
+            R.drawable.achievement_40_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 40 }
         achievementList.add(achievement)
         achievement = Achievement(
-                4, R.string.ach_day_100,
-                R.string.ach_day_100_des,
-                1000,
-                false,
-                5,
-                R.drawable.achievement_100_day_n,
-                R.drawable.achievement_100_day
+            4, R.string.ach_day_100,
+            R.string.ach_day_100_des,
+            1000,
+            false,
+            5,
+            R.drawable.achievement_100_day_n,
+            R.drawable.achievement_100_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 100 }
         achievementList.add(achievement)
         achievement = Achievement(
-                5, R.string.ach_day_365,
-                R.string.ach_day_365_des,
-                2500,
-                false,
-                10,
-                R.drawable.achievement_365_day_n,
-                R.drawable.achievement_365_day
+            5, R.string.ach_day_365,
+            R.string.ach_day_365_des,
+            2500,
+            false,
+            10,
+            R.drawable.achievement_365_day_n,
+            R.drawable.achievement_365_day
         ) { dayInRowRecord: Int -> dayInRowRecord >= 365 }
         achievementList.add(achievement)
         achievement = Achievement(
-                6, R.string.ach_all,
-                R.string.ach_all_des,
-                500,
-                true,
-                5,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_all_drinks
+            6, R.string.ach_all,
+            R.string.ach_all_des,
+            500,
+            true,
+            5,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_all_drinks
         ) { drinks: Int -> drinks == drinkList.size }
         achievementList.add(achievement)
         achievement = Achievement(
-                7, R.string.ach_lvl_3,
-                R.string.ach_lvl_3_des,
-                0,
-                true,
-                1,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_3_lvl
+            7, R.string.ach_lvl_3,
+            R.string.ach_lvl_3_des,
+            0,
+            true,
+            1,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_3_lvl
         ) { level: Int -> level >= 3 }
         achievementList.add(achievement)
         achievement = Achievement(
-                8, R.string.ach_lvl_10,
-                R.string.ach_lvl_10_des,
-                0,
-                true,
-                2,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_10_lvl
+            8, R.string.ach_lvl_10,
+            R.string.ach_lvl_10_des,
+            0,
+            true,
+            2,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_10_lvl
         ) { level: Int -> level >= 10 }
         achievementList.add(achievement)
         achievement = Achievement(
-                9, R.string.ach_lvl_20,
-                R.string.ach_lvl_20_des,
-                0,
-                true,
-                5,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_20_lvl
+            9, R.string.ach_lvl_20,
+            R.string.ach_lvl_20_des,
+            0,
+            true,
+            5,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_20_lvl
         ) { level: Int -> level >= 20 }
         achievementList.add(achievement)
         achievement = Achievement(
-                10, R.string.ach_lvl_30,
-                R.string.ach_lvl_30_des,
-                0,
-                true,
-                5,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_30_lvl
+            10, R.string.ach_lvl_30,
+            R.string.ach_lvl_30_des,
+            0,
+            true,
+            5,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_30_lvl
         ) { level: Int -> level >= 30 }
         achievementList.add(achievement)
         achievement = Achievement(
-                11, R.string.ach_lvl_50,
-                R.string.ach_lvl_50_des,
-                0,
-                true,
-                10,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_50_lvl
+            11, R.string.ach_lvl_50,
+            R.string.ach_lvl_50_des,
+            0,
+            true,
+            10,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_50_lvl
         ) { level: Int -> level >= 50 }
         achievementList.add(achievement)
         achievement = Achievement(
-                12, R.string.ach_alco,
-                R.string.ach_alco_des,
-                250,
-                true,
-                5,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_alco
+            12, R.string.ach_alco,
+            R.string.ach_alco_des,
+            250,
+            true,
+            5,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_alco
         ) { unused: Int -> unused == 1 }
         achievementList.add(achievement)
         achievement = Achievement(
-                13, R.string.ach_coffee,
-                R.string.ach_coffee_des,
-                250,
-                true,
-                5,
-                R.drawable.achievement_hidden,
-                R.drawable.achievement_coffee
+            13, R.string.ach_coffee,
+            R.string.ach_coffee_des,
+            250,
+            true,
+            5,
+            R.drawable.achievement_hidden,
+            R.drawable.achievement_coffee
         ) { unused: Int -> unused == 1 }
         achievementList.add(achievement)
     }
@@ -296,9 +318,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         if (!toasted) {
                             Toast.makeText(
-                                    this,
-                                    getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
-                                    Toast.LENGTH_LONG
+                                this,
+                                getText(achievement.nameResource).toString() + "\n" + getText(
+                                    achievement.descriptionResource
+                                ).toString(),
+                                Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
                         }
@@ -324,9 +348,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         if (!toasted) {
                             Toast.makeText(
-                                    this,
-                                    getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
-                                    Toast.LENGTH_LONG
+                                this,
+                                getText(achievement.nameResource).toString() + "\n" + getText(
+                                    achievement.descriptionResource
+                                ).toString(),
+                                Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
                         }
@@ -347,9 +373,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         if (!toasted) {
                             Toast.makeText(
-                                    this,
-                                    getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
-                                    Toast.LENGTH_LONG
+                                this,
+                                getText(achievement.nameResource).toString() + "\n" + getText(
+                                    achievement.descriptionResource
+                                ).toString(),
+                                Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
                         }
@@ -370,9 +398,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         if (!toasted) {
                             Toast.makeText(
-                                    this,
-                                    getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
-                                    Toast.LENGTH_LONG
+                                this,
+                                getText(achievement.nameResource).toString() + "\n" + getText(
+                                    achievement.descriptionResource
+                                ).toString(),
+                                Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
                         }
@@ -393,9 +423,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         if (!toasted) {
                             Toast.makeText(
-                                    this,
-                                    getText(achievement.nameResource).toString() + "\n" + getText(achievement.descriptionResource).toString(),
-                                    Toast.LENGTH_LONG
+                                this,
+                                getText(achievement.nameResource).toString() + "\n" + getText(
+                                    achievement.descriptionResource
+                                ).toString(),
+                                Toast.LENGTH_LONG
                             ).show()
                             toastedList.addAchievement(achievement.id)
                         }
@@ -409,16 +441,19 @@ class MainActivity : AppCompatActivity() {
             clearAchievements()
             fillAchievments()
             findViewById<TextView>(R.id.achievementAmountView).text = getString(
-                    R.string.trophy_amount,
-                    profile.completedAchievmentsIdList.size
+                R.string.trophy_amount,
+                profile.completedAchievmentsIdList.size
             )
-            findViewById<TextView>(R.id.moneyField).text = getString(R.string.int_number, profile.money)
+            findViewById<TextView>(R.id.moneyField).text = getString(
+                R.string.int_number,
+                profile.money
+            )
             updateAchievments()
         }
     }
 
     private fun lvlCheck() {
-        val expToLvlUp = { x: Int -> x * 50}
+        val expToLvlUp = { x: Int -> x * 50 + 50}
         val currentLvl = profile.lvl
         while (expToLvlUp(profile.lvl) <= profile.currentExp) {
             profile.currentExp -= expToLvlUp(profile.lvl)
@@ -427,9 +462,9 @@ class MainActivity : AppCompatActivity() {
         profile.money += profile.lvl - currentLvl
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         findViewById<TextView>(R.id.progressTextInfo).text = getString(
-                R.string.progress_text, profile.currentExp, expToLvlUp(
+            R.string.progress_text, profile.currentExp, expToLvlUp(
                 profile.lvl
-        )
+            )
         )
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         progressBar.max = expToLvlUp(profile.lvl)
@@ -451,7 +486,11 @@ class MainActivity : AppCompatActivity() {
                 if (id == achievement.id) {
                     layout.setBackgroundResource(achievement.resourceDone)
                     layout.setOnClickListener {
-                        Toast.makeText(this, getText(achievement.descriptionResource), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            getText(achievement.descriptionResource),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     text.text = getText(achievement.nameResource)
                 }
@@ -497,8 +536,8 @@ class MainActivity : AppCompatActivity() {
         for (drink in drinkList) {
             val cardLayout = CardView(this)
             cardLayout.layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
             )
             cardLayout.radius = 5.dpToPixels(this)
             cardLayout.setCardBackgroundColor(ContextCompat.getColor(this, R.color.light_blue))
@@ -509,8 +548,8 @@ class MainActivity : AppCompatActivity() {
 
             val verticalLayout1 = LinearLayout(this)
             var vparams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
             )
             verticalLayout1.layoutParams = vparams
             verticalLayout1.orientation = LinearLayout.VERTICAL
@@ -518,8 +557,8 @@ class MainActivity : AppCompatActivity() {
 
             val verticalLayout2 = LinearLayout(this)
             vparams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
             )
             verticalLayout2.layoutParams = vparams
             verticalLayout2.orientation = LinearLayout.VERTICAL
@@ -535,8 +574,8 @@ class MainActivity : AppCompatActivity() {
 
             val text2 = TextView(this)
             text2.text = getString(
-                    R.string.drink_amount,
-                    waterInfo.getDrinkAmount(drink.id) / 1000.0
+                R.string.drink_amount,
+                waterInfo.getDrinkAmount(drink.id) / 1000.0
             )
             text2.maxLines = 1
             text2.isSingleLine = true
@@ -570,18 +609,18 @@ class MainActivity : AppCompatActivity() {
 
             val cardParams: ViewGroup.MarginLayoutParams = cardLayout.layoutParams as ViewGroup.MarginLayoutParams
             cardParams.setMargins(
-                    5.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 5.dpToPixels(
+                5.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 5.dpToPixels(
                     this
-            ).toInt(), 5.dpToPixels(this).toInt()
+                ).toInt(), 5.dpToPixels(this).toInt()
             )
             cardLayout.layoutParams = cardParams
             cardLayout.postInvalidate()
 
             val listViewParams: ViewGroup.MarginLayoutParams = verticalLayout1.layoutParams as ViewGroup.MarginLayoutParams
             listViewParams.setMargins(
-                    10.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 10.dpToPixels(
+                10.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 10.dpToPixels(
                     this
-            ).toInt(), 5.dpToPixels(this).toInt()
+                ).toInt(), 5.dpToPixels(this).toInt()
             )
             verticalLayout1.layoutParams = listViewParams
             verticalLayout2.layoutParams = listViewParams
@@ -600,15 +639,15 @@ class MainActivity : AppCompatActivity() {
             for (triple in chronology) {
                 val cardLayout = CardView(this)
                 cardLayout.layoutParams = LinearLayout.LayoutParams(
-                        90.dpToPixels(this).toInt(),
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    90.dpToPixels(this).toInt(),
+                    LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 cardLayout.radius = 0F
                 cardLayout.elevation = 0F
                 val verticalLayout1 = LinearLayout(this)
                 var vparams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
                 )
                 verticalLayout1.layoutParams = vparams
                 verticalLayout1.orientation = LinearLayout.VERTICAL
@@ -627,8 +666,8 @@ class MainActivity : AppCompatActivity() {
 
                 val text2 = TextView(this)
                 text2.text = getString(
-                        R.string.drink_amount,
-                        triple.second / 1000.0
+                    R.string.drink_amount,
+                    triple.second / 1000.0
                 )
                 text2.maxLines = 1
                 text2.isSingleLine = true
@@ -665,18 +704,18 @@ class MainActivity : AppCompatActivity() {
 
                 val cardParams: ViewGroup.MarginLayoutParams = cardLayout.layoutParams as ViewGroup.MarginLayoutParams
                 cardParams.setMargins(
-                        5.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 5.dpToPixels(
+                    5.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 5.dpToPixels(
                         this
-                ).toInt(), 5.dpToPixels(this).toInt()
+                    ).toInt(), 5.dpToPixels(this).toInt()
                 )
                 cardLayout.layoutParams = cardParams
                 cardLayout.postInvalidate()
 
                 val listViewParams: ViewGroup.MarginLayoutParams = verticalLayout1.layoutParams as ViewGroup.MarginLayoutParams
                 listViewParams.setMargins(
-                        0.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 0.dpToPixels(
+                    0.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 0.dpToPixels(
                         this
-                ).toInt(), 5.dpToPixels(this).toInt()
+                    ).toInt(), 5.dpToPixels(this).toInt()
                 )
                 verticalLayout1.layoutParams = listViewParams
                 verticalLayout1.postInvalidate()
@@ -701,22 +740,24 @@ class MainActivity : AppCompatActivity() {
     fun updateAvatar() {
         val avatarLayout = findViewById<ImageView>(R.id.avatar)
         avatarLayout.setImageResource(profile.avatar.resourceId)
+        findViewById<ImageView>(R.id.avatarHatMain).setImageResource(profile.hat.resourceId)
+        findViewById<ImageView>(R.id.avatarMaskMain).setImageResource(profile.mask.resourceId)
     }
 
     fun updateInfo() {
         findViewById<TextView>(R.id.waterInfoView).text = getString(
-                R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(
+            R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(
                 profile.sex
-        )(profile.weight, profile.actTime)
+            )(profile.weight, profile.actTime)
         )
         val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0F) {
             0
         } else {
             floor(
-                    (waterInfo.getCurrentWater().toDouble() / 1000 / getFormula(profile.sex)(
-                            profile.weight,
-                            profile.actTime
-                    )) * 100
+                (waterInfo.getCurrentWater().toDouble() / 1000 / getFormula(profile.sex)(
+                    profile.weight,
+                    profile.actTime
+                )) * 100
             ).toInt()
         }
         findViewById<TextView>(R.id.waterPercentage).text = getString(R.string.percentage, percent)
@@ -742,10 +783,10 @@ class MainActivity : AppCompatActivity() {
             }
             val date = Date(millis - 86400000L * (7 - i))
             val data = BarData(
-                    formatter.format(date), waterAmount / 1000f, getString(
+                formatter.format(date), waterAmount / 1000f, getString(
                     R.string.drink_amount,
                     waterAmountStored / 1000f
-            )
+                )
             )
             dataList.add(data)
             i += 1
@@ -764,12 +805,12 @@ class MainActivity : AppCompatActivity() {
     fun updateViews() {
         findViewById<TextView>(R.id.daysInRowTextView).text = waterInfo.getDayInRow().toString()
         findViewById<TextView>(R.id.achievementAmountView).text = getString(
-                R.string.trophy_amount,
-                profile.completedAchievmentsIdList.size
+            R.string.trophy_amount,
+            profile.completedAchievmentsIdList.size
         )
         findViewById<TextView>(R.id.highestScoreView).text = getString(
-                R.string.highest_score,
-                waterInfo.getHighestScore()
+            R.string.highest_score,
+            waterInfo.getHighestScore()
         )
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         findViewById<TextView>(R.id.personName).text = profile.name

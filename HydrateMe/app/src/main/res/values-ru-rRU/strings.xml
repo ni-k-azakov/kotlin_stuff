@@ -52,7 +52,7 @@
     <string name="ach_lvl_50">Мудрый наставник</string>
     <string name="ach_lvl_50_des">Вы достигли 50-го уровня.</string>
     <string name="ach_all">Любитель разнообразия</string>
-    <string name="ach_all_des">Вы попробовали все возможные напитки!</string>
+    <string name="ach_all_des">Вы попробовали все напитки за один день!</string>
     <string name="ach_coffee">Спокойствие на максимум</string>
     <string name="ach_coffee_des">Месяц без кофе.</string>
     <string name="ach_alco">Трезвость- моё второе имя</string>
@@ -78,4 +78,9 @@
     <string name="floppa_test_description">Русский кот</string>
     <string name="bingus_test">Бингус</string>
     <string name="bingus_test_description">ЛГБТ+</string>
+    <string name="mask">Маска</string>
+    <string name="hat">Шапка</string>
+    <string name="bow">Бант</string>
+    <string name="sunglasses">Очки</string>
+    <string name="nothing">Ничего</string>
 </resources>

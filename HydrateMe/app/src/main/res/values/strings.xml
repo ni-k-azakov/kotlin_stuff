@@ -27,6 +27,8 @@
     <string name="weight_section">Weight</string>
     <string name="workout_section">Workout time</string>
     <string name="avatar_section">Avatar</string>
+    <string name="mask">Mask</string>
+    <string name="hat">Hat</string>
     <string name="sex_male">Male</string>
     <string name="sex_female">Female</string>
     <string name="weight_abbr">kg</string>
@@ -65,7 +67,7 @@
     <string name="ach_lvl_50_des">You have reached level 50.</string>
 
     <string name="ach_all">Variety lover</string>
-    <string name="ach_all_des">You tried all available drinks.</string>
+    <string name="ach_all_des">You tried all drinks in one day.</string>
     <string name="ach_coffee">Chill out</string>
     <string name="ach_coffee_des">One month without coffee.</string>
     <string name="ach_alco">Stone-cold sober</string>
@@ -89,6 +91,9 @@
     <string name="act_time_error_launch">hours per day</string>
     <string name="next_launch">Next</string>
     <string name="done_launch">Done</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
-
+    <string name="bow">Bow</string>
+    <string name="sunglasses">Sunglasses</string>
+    <string name="nothing">Nothing</string>
 </resources>

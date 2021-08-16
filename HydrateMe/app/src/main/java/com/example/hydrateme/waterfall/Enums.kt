@@ -7,3 +7,8 @@ enum class ConditionType {
     RATING,
     MONEY,
 }
+
+enum class AppVersion {
+    FREE,
+    FULL
+}
