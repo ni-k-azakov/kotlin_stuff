@@ -18,6 +18,8 @@
     <string name="simple_string">Simple</string>
     <string name="empty_chronology_message">Add your first drink today</string>
     <string name="customization">Customization</string>
+    <string name="thank_you">Thank you for using our app!</string>
+    <string name="advert_available">One diamond available per ad</string>
 
     <string name="stat_section">Statistics</string>
     <string name="daily_section">Today drinks</string>
@@ -92,6 +94,7 @@
     <string name="next_launch">Next</string>
     <string name="done_launch">Done</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="reward_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
 
     <string name="bow">Bow</string>
     <string name="sunglasses">Sunglasses</string>

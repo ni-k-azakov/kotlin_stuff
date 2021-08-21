@@ -3,12 +3,16 @@ package com.example.hydrateme
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.hydrateme.waterfall.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import me.itangqi.waveloadingview.WaveLoadingView
 import java.io.*
 import kotlin.math.floor
@@ -19,6 +23,7 @@ class WaterActivity : AppCompatActivity() {
     private lateinit var profile: Profile
     private lateinit var waterLoadingView: WaveLoadingView
     private var currentDrinkId = 0
+    private lateinit var mAdView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +31,13 @@ class WaterActivity : AppCompatActivity() {
 
         dataLoader()
 
+        MobileAds.initialize(this)
+        mAdView = findViewById(R.id.adView)
+        val adRequest: AdRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
         fillDrinksList()
         showDrinksList()
-        updateAvatar()
         updateInfo()
 
         findViewById<TextView>(R.id.daysInRow).text = getString(R.string.days_in_row, waterInfo.getDayInRow())
@@ -36,7 +45,18 @@ class WaterActivity : AppCompatActivity() {
 
     override fun onPause() {
         dataSaver()
+        mAdView.pause()
         super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mAdView.resume()
+    }
+
+    override fun onDestroy() {
+        mAdView.destroy()
+        super.onDestroy()
     }
 
     private fun fillDrinksList() {
@@ -122,9 +142,21 @@ class WaterActivity : AppCompatActivity() {
         outputStream.writeObject(profile)
     }
 
-    fun updateAvatar() {
-        val avatarLayout = findViewById<ConstraintLayout>(R.id.avatar)
-        avatarLayout.setBackgroundResource(profile.avatar.resourceId)
+    fun updateAvatar(percent: Int) {
+        val avatarLayout = findViewById<ImageView>(R.id.avatar)
+        when {
+            percent >= 100 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceIdHappy)
+            }
+            percent < 0 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceIdSad)
+            }
+            else -> {
+                avatarLayout.setImageResource(profile.avatar.resourceId)
+            }
+        }
+        findViewById<ImageView>(R.id.avatarMaskWater).setImageResource(profile.mask.resourceId)
+        findViewById<ImageView>(R.id.avatarHatWater).setImageResource(profile.hat.resourceId)
     }
 
     fun updateInfo() {
@@ -135,7 +167,7 @@ class WaterActivity : AppCompatActivity() {
             floor((waterInfo.getCurrentWater().toDouble() / 1000 / getFormula(profile.sex)(profile.weight, profile.actTime)) * 100).toInt()
         }
         findViewById<TextView>(R.id.waterPercent).text = getString(R.string.percentage, percent)
-
+        updateAvatar(percent)
         waterLoadingView = findViewById(R.id.waveLoaderView)
         waterLoadingView.progressValue = percent
         waterLoadingView.bottomTitle = String.format("%d%%", percent)

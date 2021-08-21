@@ -12,6 +12,8 @@ class Profile : Serializable {
         0,
         R.string.avatar_blue_drop,
         R.drawable.drop,
+        R.drawable.drop,
+        R.drawable.drop,
         R.string.avatar_base_des,
         ConditionType.NONE,
         0
@@ -35,6 +37,7 @@ class Profile : Serializable {
     var weight: Float = 72.0F
     var money: Int = 0
     var advertCoins: Int = 0
+    var lastAdvertShow: Long = System.currentTimeMillis() - 86400000L * 7
     val completedAchievmentsIdList: MutableList<Byte> = mutableListOf()
     val availableAvatarIdList: MutableList<Byte> = mutableListOf(0, 1)
     val availableMaskIdList: MutableList<Byte> = mutableListOf(0)

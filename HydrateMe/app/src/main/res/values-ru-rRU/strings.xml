@@ -65,7 +65,7 @@
     <string name="sex_launch">Какой у тебя пол?</string>
     <string name="weight_launch">Сколько ты весишь?</string>
     <string name="blank_field_launch">пустое поле</string>
-    <string name="act_time_launch">Как долго ты занимаешься?</string>
+    <string name="act_time_launch">Сколько в среднем ты занимаешься спортом за день?</string>
     <string name="next_launch">Дальше</string>
     <string name="done_launch">Готово</string>
     <string name="act_time_error_launch">часов в сутки</string>
@@ -83,4 +83,6 @@
     <string name="bow">Бант</string>
     <string name="sunglasses">Очки</string>
     <string name="nothing">Ничего</string>
+    <string name="thank_you">Спасибо, что используете наше приложение!</string>
+    <string name="advert_available">Доступен 1 алмаз за рекламу</string>
 </resources>

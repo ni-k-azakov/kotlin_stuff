@@ -3,6 +3,7 @@ package com.example.hydrateme
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -93,7 +94,6 @@ class MainActivity : AppCompatActivity() {
         fillDrinksChronologyInfo()
         updateAchievments()
         updateGraph()
-        updateAvatar()
         super.onResume()
         mAdView.resume()
     }
@@ -737,9 +737,19 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, WaterActivity::class.java))
     }
 
-    fun updateAvatar() {
+    fun updateAvatar(percent: Int) {
         val avatarLayout = findViewById<ImageView>(R.id.avatar)
-        avatarLayout.setImageResource(profile.avatar.resourceId)
+        when {
+            percent >= 100 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceIdHappy)
+            }
+            percent < 0 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceIdSad)
+            }
+            else -> {
+                avatarLayout.setImageResource(profile.avatar.resourceId)
+            }
+        }
         findViewById<ImageView>(R.id.avatarHatMain).setImageResource(profile.hat.resourceId)
         findViewById<ImageView>(R.id.avatarMaskMain).setImageResource(profile.mask.resourceId)
     }
@@ -760,6 +770,7 @@ class MainActivity : AppCompatActivity() {
                 )) * 100
             ).toInt()
         }
+        updateAvatar(percent)
         findViewById<TextView>(R.id.waterPercentage).text = getString(R.string.percentage, percent)
         findViewById<TextView>(R.id.moneyField).text = getString(R.string.int_number, profile.money)
         waterLoadingView = findViewById(R.id.waveLoaderView)
@@ -802,6 +813,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
+    fun openAvatar(view: View) {
+        dataSaver()
+        startActivity(Intent(this, AvatarActivity::class.java))
+    }
+
     fun updateViews() {
         findViewById<TextView>(R.id.daysInRowTextView).text = waterInfo.getDayInRow().toString()
         findViewById<TextView>(R.id.achievementAmountView).text = getString(
@@ -814,17 +830,31 @@ class MainActivity : AppCompatActivity() {
         )
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         findViewById<TextView>(R.id.personName).text = profile.name
+        val timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
+        val threeHours: Long = 60 * 60 * 3 * 1000
+        if (timeFromPrevAdvert > threeHours) {
+            findViewById<TextView>(R.id.advertNotification).visibility = View.VISIBLE
+        } else {
+            findViewById<TextView>(R.id.advertNotification).visibility = View.GONE
+            val timer: CountDownTimer = object : CountDownTimer(threeHours - timeFromPrevAdvert, 1000) {
+                override fun onTick(l: Long) {}
+                override fun onFinish() {
+                    findViewById<TextView>(R.id.advertNotification).visibility = View.VISIBLE
+                }
+            }
+            timer.start()
+        }
     }
 
     fun swapDailyInfoView(view: View) {
         if (findViewById<LinearLayout>(R.id.todayDrinksGeneral).visibility != View.GONE) {
             findViewById<LinearLayout>(R.id.todayDrinksGeneral).visibility = View.GONE
             findViewById<ConstraintLayout>(R.id.chronologyLayout).visibility = View.VISIBLE
-            findViewById<Button>(R.id.dailyInfoSwapButton).text = getString(R.string.simple_string)
+            findViewById<Button>(R.id.dailyInfoSwapButton).text = getString(R.string.chronology_string)
         } else {
             findViewById<LinearLayout>(R.id.todayDrinksGeneral).visibility = View.VISIBLE
             findViewById<ConstraintLayout>(R.id.chronologyLayout).visibility = View.GONE
-            findViewById<Button>(R.id.dailyInfoSwapButton).text = getString(R.string.chronology_string)
+            findViewById<Button>(R.id.dailyInfoSwapButton).text = getString(R.string.simple_string)
         }
     }
 }

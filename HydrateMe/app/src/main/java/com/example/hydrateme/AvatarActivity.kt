@@ -2,12 +2,16 @@ package com.example.hydrateme
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.hydrateme.waterfall.*
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import java.io.*
 
 class AvatarActivity : AppCompatActivity() {
@@ -16,10 +20,14 @@ class AvatarActivity : AppCompatActivity() {
     private val avatarList: MutableList<Avatar> = mutableListOf()
     private val hatList: MutableList<Clothes> = mutableListOf()
     private val maskList: MutableList<Clothes> = mutableListOf()
+    private var rewardedAd: RewardedAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avatar)
+        MobileAds.initialize(this) {}
+        createAndLoadRewardAd()
+
         dataLoader()
         fillAvatarList()
         fillHatList()
@@ -28,6 +36,7 @@ class AvatarActivity : AppCompatActivity() {
         fillHatListView()
         fillMaskListView()
         updateViews()
+        updateButton()
     }
 
     private fun dataLoader() {
@@ -58,32 +67,38 @@ class AvatarActivity : AppCompatActivity() {
 
     fun fillAvatarList() {
         var avatar = Avatar(
-            0,
-            R.string.avatar_blue_drop,
-            R.drawable.drop,
-            R.string.avatar_base_des,
-            ConditionType.NONE,
-            0
+                0,
+                R.string.avatar_blue_drop,
+                R.drawable.drop,
+                R.drawable.drop,
+                R.drawable.drop,
+                R.string.avatar_base_des,
+                ConditionType.NONE,
+                0
         )
         avatarList.add(avatar)
 
         avatar = Avatar(
-            1,
-            R.string.avatar_pink_drop,
-            R.drawable.drop_female,
-            R.string.avatar_base_des,
-            ConditionType.NONE,
-            0
+                1,
+                R.string.avatar_pink_drop,
+                R.drawable.drop_female,
+                R.drawable.drop_female,
+                R.drawable.drop_female,
+                R.string.avatar_base_des,
+                ConditionType.NONE,
+                0
         )
         avatarList.add(avatar)
 
         avatar = Avatar(
-            2,
-            R.string.floppa_test,
-            R.drawable.floppa,
-            R.string.floppa_test_description,
-            ConditionType.MONEY,
-            0
+                2,
+                R.string.floppa_test,
+                R.drawable.floppa,
+                R.drawable.floppa,
+                R.drawable.floppa,
+                R.string.floppa_test_description,
+                ConditionType.MONEY,
+                10
         )
         avatarList.add(avatar)
 
@@ -91,8 +106,10 @@ class AvatarActivity : AppCompatActivity() {
                 3,
                 R.string.bingus_test,
                 R.drawable.bingus,
+                R.drawable.bingus,
+                R.drawable.bingus,
                 R.string.bingus_test_description,
-                ConditionType.MONEY,
+                ConditionType.ADVERT,
                 10
         )
         avatarList.add(avatar)
@@ -100,40 +117,40 @@ class AvatarActivity : AppCompatActivity() {
 
     fun fillHatList() {
         var hat = Clothes(
-            0,
-            R.string.nothing,
-            R.drawable.nothing,
-            ConditionType.NONE,
-            0
+                0,
+                R.string.nothing,
+                R.drawable.nothing,
+                ConditionType.NONE,
+                0
         )
         hatList.add(hat)
 
         hat = Clothes(
-            1,
-            R.string.bow,
-            R.drawable.bow,
-            ConditionType.MONEY,
-            5
+                1,
+                R.string.bow,
+                R.drawable.bow,
+                ConditionType.MONEY,
+                5
         )
         hatList.add(hat)
     }
 
     fun fillMaskList() {
         var mask = Clothes(
-        0,
-        R.string.nothing,
-        R.drawable.nothing,
-        ConditionType.NONE,
-        0
+                0,
+                R.string.nothing,
+                R.drawable.nothing,
+                ConditionType.NONE,
+                0
         )
         maskList.add(mask)
 
         mask = Clothes(
-            1,
-            R.string.sunglasses,
-            R.drawable.sunglasses,
-            ConditionType.MONEY,
-            5
+                1,
+                R.string.sunglasses,
+                R.drawable.sunglasses,
+                ConditionType.ADVERT,
+                5
         )
         maskList.add(mask)
     }
@@ -142,28 +159,28 @@ class AvatarActivity : AppCompatActivity() {
         for (hat in hatList) {
             val cardLayout = CardView(this)
             cardLayout.layoutParams = LinearLayout.LayoutParams(
-                170.dpToPixels(this).toInt(),
-                170.dpToPixels(this).toInt()
+                    170.dpToPixels(this).toInt(),
+                    170.dpToPixels(this).toInt()
             )
             cardLayout.elevation = 2F
             cardLayout.radius = 20F
             cardLayout.setContentPadding(
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt()
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt()
             )
             (cardLayout.layoutParams as ViewGroup.MarginLayoutParams).setMargins(
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt()
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt()
             )
             val image = ImageView(this)
             image.setImageResource(hat.resourceId)
             image.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                90.dpToPixels(this).toInt()
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    90.dpToPixels(this).toInt()
             )
 
             val imageChooser = ImageView(this)
@@ -183,22 +200,22 @@ class AvatarActivity : AppCompatActivity() {
             }
 
             imageChooser.layoutParams = ViewGroup.LayoutParams(
-                25.dpToPixels(this).toInt(),
-                25.dpToPixels(this).toInt()
+                    25.dpToPixels(this).toInt(),
+                    25.dpToPixels(this).toInt()
             )
 
             val infoLayout = LinearLayout(this)
             infoLayout.orientation = LinearLayout.VERTICAL
             infoLayout.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             )
             infoLayout.gravity = Gravity.CENTER
             (infoLayout.layoutParams as ViewGroup.MarginLayoutParams).setMargins(
-                0,
-                95.dpToPixels(this).toInt(),
-                0,
-                0,
+                    0,
+                    95.dpToPixels(this).toInt(),
+                    0,
+                    0,
             )
             val textName = TextView(this)
             textName.gravity = Gravity.CENTER
@@ -208,13 +225,14 @@ class AvatarActivity : AppCompatActivity() {
 
             infoLayout.addView(textName)
             when (hat.conditionType) {
-                ConditionType.NONE, ConditionType.ACHIEVEMENT -> {}
+                ConditionType.NONE, ConditionType.ACHIEVEMENT -> {
+                }
                 ConditionType.MONEY -> {
                     if (!profile.availableHatIdList.contains(hat.id.toByte())) {
                         val buyButton = Button(this)
                         buyButton.layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         buyButton.text = getString(R.string.int_number, hat.conditionValue)
                         val star = resources.getDrawable(R.drawable.star_icon)
@@ -225,10 +243,10 @@ class AvatarActivity : AppCompatActivity() {
                         buyButton.setTextColor(resources.getColor(R.color.white))
                         buyButton.minHeight = 0
                         buyButton.setPadding(
-                            30.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt(),
-                            20.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt()
+                                30.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt(),
+                                20.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt()
                         )
                         buyButton.setOnClickListener {
                             if (profile.money >= hat.conditionValue) {
@@ -246,8 +264,8 @@ class AvatarActivity : AppCompatActivity() {
                     if (!profile.availableHatIdList.contains(hat.id.toByte())) {
                         val buyButton = Button(this)
                         buyButton.layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         buyButton.text = getString(R.string.int_number, hat.conditionValue)
                         val advert = resources.getDrawable(R.drawable.advert_icon)
@@ -258,10 +276,10 @@ class AvatarActivity : AppCompatActivity() {
                         buyButton.setTextColor(resources.getColor(R.color.white))
                         buyButton.minHeight = 0
                         buyButton.setPadding(
-                            30.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt(),
-                            20.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt()
+                                30.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt(),
+                                20.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt()
                         )
                         buyButton.setOnClickListener {
                             if (profile.advertCoins >= hat.conditionValue) {
@@ -297,28 +315,28 @@ class AvatarActivity : AppCompatActivity() {
         for (mask in maskList) {
             val cardLayout = CardView(this)
             cardLayout.layoutParams = LinearLayout.LayoutParams(
-                170.dpToPixels(this).toInt(),
-                170.dpToPixels(this).toInt()
+                    170.dpToPixels(this).toInt(),
+                    170.dpToPixels(this).toInt()
             )
             cardLayout.elevation = 2F
             cardLayout.radius = 20F
             cardLayout.setContentPadding(
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt()
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt()
             )
             (cardLayout.layoutParams as ViewGroup.MarginLayoutParams).setMargins(
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt()
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt()
             )
             val image = ImageView(this)
             image.setImageResource(mask.resourceId)
             image.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                90.dpToPixels(this).toInt()
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    90.dpToPixels(this).toInt()
             )
 
             val imageChooser = ImageView(this)
@@ -338,22 +356,22 @@ class AvatarActivity : AppCompatActivity() {
             }
 
             imageChooser.layoutParams = ViewGroup.LayoutParams(
-                25.dpToPixels(this).toInt(),
-                25.dpToPixels(this).toInt()
+                    25.dpToPixels(this).toInt(),
+                    25.dpToPixels(this).toInt()
             )
 
             val infoLayout = LinearLayout(this)
             infoLayout.orientation = LinearLayout.VERTICAL
             infoLayout.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             )
             infoLayout.gravity = Gravity.CENTER
             (infoLayout.layoutParams as ViewGroup.MarginLayoutParams).setMargins(
-                0,
-                95.dpToPixels(this).toInt(),
-                0,
-                0,
+                    0,
+                    95.dpToPixels(this).toInt(),
+                    0,
+                    0,
             )
             val textName = TextView(this)
             textName.gravity = Gravity.CENTER
@@ -363,13 +381,14 @@ class AvatarActivity : AppCompatActivity() {
 
             infoLayout.addView(textName)
             when (mask.conditionType) {
-                ConditionType.NONE, ConditionType.ACHIEVEMENT -> {}
+                ConditionType.NONE, ConditionType.ACHIEVEMENT -> {
+                }
                 ConditionType.MONEY -> {
                     if (!profile.availableMaskIdList.contains(mask.id.toByte())) {
                         val buyButton = Button(this)
                         buyButton.layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         buyButton.text = getString(R.string.int_number, mask.conditionValue)
                         val star = resources.getDrawable(R.drawable.star_icon)
@@ -380,10 +399,10 @@ class AvatarActivity : AppCompatActivity() {
                         buyButton.setTextColor(resources.getColor(R.color.white))
                         buyButton.minHeight = 0
                         buyButton.setPadding(
-                            30.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt(),
-                            20.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt()
+                                30.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt(),
+                                20.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt()
                         )
                         buyButton.setOnClickListener {
                             if (profile.money >= mask.conditionValue) {
@@ -401,8 +420,8 @@ class AvatarActivity : AppCompatActivity() {
                     if (!profile.availableMaskIdList.contains(mask.id.toByte())) {
                         val buyButton = Button(this)
                         buyButton.layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT
+                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
                         )
                         buyButton.text = getString(R.string.int_number, mask.conditionValue)
                         val advert = resources.getDrawable(R.drawable.advert_icon)
@@ -413,10 +432,10 @@ class AvatarActivity : AppCompatActivity() {
                         buyButton.setTextColor(resources.getColor(R.color.white))
                         buyButton.minHeight = 0
                         buyButton.setPadding(
-                            30.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt(),
-                            20.dpToPixels(this).toInt(),
-                            5.dpToPixels(this).toInt()
+                                30.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt(),
+                                20.dpToPixels(this).toInt(),
+                                5.dpToPixels(this).toInt()
                         )
                         buyButton.setOnClickListener {
                             if (profile.advertCoins >= mask.conditionValue) {
@@ -452,8 +471,8 @@ class AvatarActivity : AppCompatActivity() {
         for (avatar in avatarList) {
             val cardLayout = CardView(this)
             cardLayout.layoutParams = LinearLayout.LayoutParams(
-                170.dpToPixels(this).toInt(),
-                170.dpToPixels(this).toInt()
+                    170.dpToPixels(this).toInt(),
+                    170.dpToPixels(this).toInt()
             )
             cardLayout.elevation = 2F
             cardLayout.radius = 20F
@@ -464,16 +483,16 @@ class AvatarActivity : AppCompatActivity() {
                     10.dpToPixels(this).toInt()
             )
             (cardLayout.layoutParams as ViewGroup.MarginLayoutParams).setMargins(
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt(),
-                10.dpToPixels(this).toInt()
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt(),
+                    10.dpToPixels(this).toInt()
             )
             val image = ImageView(this)
             image.setImageResource(avatar.resourceId)
             image.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                90.dpToPixels(this).toInt()
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    90.dpToPixels(this).toInt()
             )
 
             val imageChooser = ImageView(this)
@@ -493,22 +512,22 @@ class AvatarActivity : AppCompatActivity() {
             }
 
             imageChooser.layoutParams = ViewGroup.LayoutParams(
-                25.dpToPixels(this).toInt(),
-                25.dpToPixels(this).toInt()
+                    25.dpToPixels(this).toInt(),
+                    25.dpToPixels(this).toInt()
             )
 
             val infoLayout = LinearLayout(this)
             infoLayout.orientation = LinearLayout.VERTICAL
             infoLayout.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             )
             infoLayout.gravity = Gravity.CENTER
             (infoLayout.layoutParams as ViewGroup.MarginLayoutParams).setMargins(
-                0,
-                95.dpToPixels(this).toInt(),
-                0,
-                0,
+                    0,
+                    95.dpToPixels(this).toInt(),
+                    0,
+                    0,
             )
             val textName = TextView(this)
             textName.gravity = Gravity.CENTER
@@ -593,6 +612,11 @@ class AvatarActivity : AppCompatActivity() {
                             }
                         }
                         infoLayout.addView(buyButton)
+                    } else {
+                        val textDescription = TextView(this)
+                        textDescription.gravity = Gravity.CENTER
+                        textDescription.text = getString(avatar.conditionDescriptionResource)
+                        infoLayout.addView(textDescription)
                     }
                 }
                 ConditionType.RATING -> {
@@ -649,10 +673,84 @@ class AvatarActivity : AppCompatActivity() {
         )
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         val expToLvlUp = { x: Int -> x * 50 + 50}
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.max = expToLvlUp(profile.lvl)
+        progressBar.progress = profile.currentExp
         findViewById<TextView>(R.id.progressTextInfo).text = getString(
                 R.string.progress_text, profile.currentExp, expToLvlUp(
                 profile.lvl
-            )
         )
+        )
+    }
+
+    private fun updateButton() {
+        val advertButton = findViewById<Button>(R.id.advertButton)
+        advertButton.isEnabled = false
+        advertButton.setOnClickListener {
+            if (rewardedAd != null) {
+                rewardedAd?.show(this) { rewardItem ->
+                    profile.advertCoins += rewardItem.amount
+                    profile.lastAdvertShow = System.currentTimeMillis()
+                    updateButton()
+                    updateViews()
+                    onRewardedAdClosed()
+                }
+            } else {
+                onRewardedAdClosed()
+            }
+        }
+        var timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
+        val threeHours: Long = 60 * 60 * 3 * 1000
+        if (timeFromPrevAdvert > threeHours) {
+            timeFromPrevAdvert = threeHours
+        }
+        val timer: CountDownTimer = object : CountDownTimer(threeHours - timeFromPrevAdvert, 1000) {
+            override fun onTick(l: Long) {
+                val hours = (l / 1000 / 3600).toInt()
+                val minutes = ((l / 1000 / 60) % 60).toInt()
+                val seconds = ((l / 1000) % 60).toInt()
+                advertButton.text = "${hours.toString().padStart(2, '0')}" +
+                        ":${minutes.toString().padStart(2, '0')}" +
+                        ":${seconds.toString().padStart(2, '0')}"
+            }
+            override fun onFinish() {
+                advertButton.text = "+1"
+                advertButton.isEnabled = true
+            }
+        }
+        timer.start()
+    }
+
+    fun createAndLoadRewardAd() {
+        RewardedAd.load(this,
+                "ca-app-pub-3940256099942544/5224354917",
+                AdRequest.Builder().build(),
+                object : RewardedAdLoadCallback() {
+                    override fun onAdLoaded(ad: RewardedAd) {
+                        rewardedAd = ad
+                    }
+
+                    override fun onAdFailedToLoad(p0: LoadAdError) {
+                        rewardedAd = null
+                    }
+                }
+        )
+        rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                // Called when ad fails to show.
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                rewardedAd = null
+            }
+        }
+    }
+
+    fun onRewardedAdClosed() {
+        createAndLoadRewardAd()
     }
 }

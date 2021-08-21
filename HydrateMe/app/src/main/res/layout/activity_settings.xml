@@ -272,11 +272,11 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginEnd="8dp"
-                    android:tint="@color/settings_grey"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/textView7"
-                    app:srcCompat="@drawable/right_arrow" />
+                    app:srcCompat="@drawable/right_arrow"
+                    app:tint="@color/settings_grey" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -294,7 +294,7 @@
         android:id="@+id/textView17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Спасибо вам за то, что используете наше приложение!"
+        android:text="@string/thank_you"
         android:textAlignment="center"
         android:textColor="@color/blue_progress_click"
         android:textSize="18sp"
