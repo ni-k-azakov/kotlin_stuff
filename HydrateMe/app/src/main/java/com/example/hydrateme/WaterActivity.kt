@@ -148,11 +148,14 @@ class WaterActivity : AppCompatActivity() {
             percent >= 100 -> {
                 avatarLayout.setImageResource(profile.avatar.resourceIdHappy)
             }
-            percent < 0 -> {
+            percent in 50..99 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceId)
+            }
+            percent in 0..49 -> {
                 avatarLayout.setImageResource(profile.avatar.resourceIdSad)
             }
-            else -> {
-                avatarLayout.setImageResource(profile.avatar.resourceId)
+            percent < 0 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceIdSuperSad)
             }
         }
         findViewById<ImageView>(R.id.avatarMaskWater).setImageResource(profile.mask.resourceId)

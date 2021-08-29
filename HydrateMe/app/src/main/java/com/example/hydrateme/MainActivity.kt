@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -21,6 +22,9 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.hadiidbouk.charts.BarData
 import com.hadiidbouk.charts.ChartProgressBar
 import me.itangqi.waveloadingview.WaveLoadingView
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
+import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,6 +63,7 @@ class MainActivity : AppCompatActivity() {
             profile.money += 1
         }
         dataSaver()
+        showTutorial()
     }
 
     override fun onStop() {
@@ -743,11 +748,14 @@ class MainActivity : AppCompatActivity() {
             percent >= 100 -> {
                 avatarLayout.setImageResource(profile.avatar.resourceIdHappy)
             }
-            percent < 0 -> {
+            percent in 50..99 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceId)
+            }
+            percent in 0..49 -> {
                 avatarLayout.setImageResource(profile.avatar.resourceIdSad)
             }
-            else -> {
-                avatarLayout.setImageResource(profile.avatar.resourceId)
+            percent < 0 -> {
+                avatarLayout.setImageResource(profile.avatar.resourceIdSuperSad)
             }
         }
         findViewById<ImageView>(R.id.avatarHatMain).setImageResource(profile.hat.resourceId)
@@ -856,5 +864,112 @@ class MainActivity : AppCompatActivity() {
             findViewById<ConstraintLayout>(R.id.chronologyLayout).visibility = View.GONE
             findViewById<Button>(R.id.dailyInfoSwapButton).text = getString(R.string.simple_string)
         }
+    }
+
+    private fun showTutorial() {
+        val pref = getSharedPreferences("dotFlexWaterPref", MODE_PRIVATE)
+        if (!pref.getBoolean("didShowTutorial", false)){
+            MaterialTapTargetPrompt.Builder(this)
+                    .setTarget(R.id.waterInfoHolder)
+                    .setPrimaryText(getString(R.string.tutorial_drink))
+                    .setSecondaryText(getString(R.string.tutorial_drink_description))
+                    .setBackButtonDismissEnabled(true)
+                    .setPromptFocal(RectanglePromptFocal())
+                    .setPromptStateChangeListener { prompt, state ->
+                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                                || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+
+                            showCoinTutorial()
+                        }
+                    }
+                    .show()
+        }
+    }
+
+    private fun showCoinTutorial() {
+        MaterialTapTargetPrompt.Builder(this)
+                .setTarget(R.id.coinHolder)
+                .setPrimaryText(getString(R.string.tutorial_coins))
+                .setSecondaryText(getString(R.string.tutorial_coins_description))
+                .setBackButtonDismissEnabled(true)
+                .setPromptStateChangeListener { prompt, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+                        showExpTutorial()
+                    }
+                }
+                .show()
+    }
+
+    private fun showExpTutorial() {
+        MaterialTapTargetPrompt.Builder(this)
+                .setTarget(R.id.lvlView)
+                .setPrimaryText(getString(R.string.tutorial_exp))
+                .setSecondaryText(getString(R.string.tutorial_exp_description))
+                .setBackButtonDismissEnabled(true)
+                .setPromptStateChangeListener { prompt, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+                        showSettingsTutorial()
+                    }
+                }
+                .show()
+    }
+
+    private fun showSettingsTutorial() {
+        MaterialTapTargetPrompt.Builder(this)
+                .setTarget(R.id.settingsButton)
+                .setPrimaryText(getString(R.string.settings_heading))
+                .setSecondaryText(getString(R.string.tutorial_settings_description))
+                .setBackButtonDismissEnabled(true)
+                .setPromptStateChangeListener { prompt, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+                        showStatTutorial()
+                    }
+                }
+                .show()
+    }
+
+    private fun showStatTutorial() {
+        findViewById<ScrollView>(R.id.scrollView2).post {
+            findViewById<ScrollView>(R.id.scrollView2).smoothScrollTo(
+                0,
+                findViewById<CardView>(R.id.statHolder).top
+            )
+        }
+        MaterialTapTargetPrompt.Builder(this)
+                .setTarget(R.id.statHolder)
+                .setPrimaryText(getString(R.string.stat_section))
+                .setSecondaryText(getString(R.string.tutorial_stat_description))
+                .setBackButtonDismissEnabled(true)
+                .setPromptFocal(RectanglePromptFocal())
+                .setPromptStateChangeListener { prompt, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+                        showChangeTutorial()
+                    }
+                }
+                .show()
+    }
+
+    private fun showChangeTutorial() {
+        val pref = getSharedPreferences("dotFlexWaterPref", MODE_PRIVATE)
+        findViewById<ScrollView>(R.id.scrollView2).post { findViewById<ScrollView>(R.id.scrollView2).smoothScrollTo(0, findViewById<CardView>(R.id.todayDrinksHolder).top) }
+        MaterialTapTargetPrompt.Builder(this)
+                .setTarget(R.id.dailyInfoSwapButton)
+                .setPrimaryText(getString(R.string.tutorial_change))
+                .setSecondaryText(getString(R.string.tutorial_change_description))
+                .setBackButtonDismissEnabled(true)
+                .setPromptStateChangeListener { prompt, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED
+                            || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED){
+                        val prefEditor = pref.edit()
+                        prefEditor.putBoolean("didShowTutorial", true)
+                        prefEditor.apply()
+                        findViewById<ScrollView>(R.id.scrollView2).post { findViewById<ScrollView>(R.id.scrollView2).smoothScrollTo(0, 0) }
+                    }
+                }
+                .show()
     }
 }

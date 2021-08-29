@@ -69,9 +69,10 @@ class AvatarActivity : AppCompatActivity() {
         var avatar = Avatar(
                 0,
                 R.string.avatar_blue_drop,
-                R.drawable.drop,
-                R.drawable.drop,
-                R.drawable.drop,
+                R.drawable.blob,
+                R.drawable.blob_happy,
+                R.drawable.blob_sad,
+                R.drawable.blob_super_sad,
                 R.string.avatar_base_des,
                 ConditionType.NONE,
                 0
@@ -81,9 +82,10 @@ class AvatarActivity : AppCompatActivity() {
         avatar = Avatar(
                 1,
                 R.string.avatar_pink_drop,
-                R.drawable.drop_female,
-                R.drawable.drop_female,
-                R.drawable.drop_female,
+                R.drawable.blob_female,
+                R.drawable.blob_female_happy,
+                R.drawable.blob_female_sad,
+                R.drawable.blob_female_super_sad,
                 R.string.avatar_base_des,
                 ConditionType.NONE,
                 0
@@ -96,6 +98,7 @@ class AvatarActivity : AppCompatActivity() {
                 R.drawable.floppa,
                 R.drawable.floppa,
                 R.drawable.floppa,
+                R.drawable.floppa,
                 R.string.floppa_test_description,
                 ConditionType.MONEY,
                 10
@@ -105,6 +108,7 @@ class AvatarActivity : AppCompatActivity() {
         avatar = Avatar(
                 3,
                 R.string.bingus_test,
+                R.drawable.bingus,
                 R.drawable.bingus,
                 R.drawable.bingus,
                 R.drawable.bingus,

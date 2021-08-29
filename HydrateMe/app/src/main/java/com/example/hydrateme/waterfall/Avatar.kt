@@ -7,6 +7,7 @@ class Avatar(val id: Int,
              val resourceId: Int,
              val resourceIdHappy: Int,
              val resourceIdSad: Int,
+             val resourceIdSuperSad: Int,
              val conditionDescriptionResource: Int,
              val conditionType: ConditionType,
              val conditionValue: Int) : Serializable

@@ -99,4 +99,15 @@
     <string name="bow">Bow</string>
     <string name="sunglasses">Sunglasses</string>
     <string name="nothing">Nothing</string>
+
+    <string name="tutorial_drink">Add your first drink</string>
+    <string name="tutorial_drink_description">Tap to open water editor.</string>
+    <string name="tutorial_coins">Coins</string>
+    <string name="tutorial_coins_description">Earn coins to customize your avatar. You get 1 coin a day for completing your norm and some coins for accomplishing achievements.</string>
+    <string name="tutorial_exp">Level</string>
+    <string name="tutorial_exp_description">You get +50 exp a day and some exp for accomplishing achievements.</string>
+    <string name="tutorial_settings_description">Tap to change your personal information or customize avatar.</string>
+    <string name="tutorial_stat_description">Tap on column to find out the amount of liquid on a specific day.</string>
+    <string name="tutorial_change">Today drinks</string>
+    <string name="tutorial_change_description">Tap to change the appearance of your daily statistics.</string>
 </resources>

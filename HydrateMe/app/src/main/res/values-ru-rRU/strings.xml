@@ -85,4 +85,14 @@
     <string name="nothing">Ничего</string>
     <string name="thank_you">Спасибо, что используете наше приложение!</string>
     <string name="advert_available">Доступен 1 алмаз за рекламу</string>
+    <string name="tutorial_drink">Добавляйте напитки</string>
+    <string name="tutorial_drink_description">Нажмите, чтобы открыть экран добавления напитков</string>
+    <string name="tutorial_coins">Монеты</string>
+    <string name="tutorial_coins_description">Зарабатывайте монеты, чтобы кастомизировать аватар. Вы получаете монеты за выполнение нормы и за открытие достижений.</string>
+    <string name="tutorial_exp">Уровень</string>
+    <string name="tutorial_exp_description">Вы получаете опыт за первый заход в день, а также за открытие достижений.</string>
+    <string name="tutorial_settings_description">Нажмите, чтобы редактировать свою информацию или кастомизировать аватар</string>
+    <string name="tutorial_stat_description">Нажмите на одну из шкал, чтобы узнать количество выпитой жидкости в определенный день.</string>
+    <string name="tutorial_change">Напитки сегодня</string>
+    <string name="tutorial_change_description">Нажмите, чтобы изменить вид статистики за день.</string>
 </resources>
