@@ -1,6 +1,6 @@
-package com.example.hydrateme.waterfall
+package com.example.glassgo.waterfall
 
-import com.example.hydrateme.R
+import com.example.glassgo.R
 import java.io.Serializable
 
 class Profile : Serializable {
@@ -43,4 +43,13 @@ class Profile : Serializable {
     val availableAvatarIdList: MutableList<Byte> = mutableListOf(0, 1)
     val availableMaskIdList: MutableList<Byte> = mutableListOf(0)
     val availableHatIdList: MutableList<Byte> = mutableListOf(0)
+
+    //  TODO(всякая штука с уведомлениями)
+    var notificationStart: Long = -1
+    var notificationEnd: Long = -1
+    var wakeUp: Long = -1
+    var bedtime: Long = -1
+    var notificationFreq: Frequency = Frequency.HOUR
+    val workoutTime: Array<Long> = Array(7) { -1 }
+    val meals: MutableList<Pair<String, Long>> = mutableListOf()
 }

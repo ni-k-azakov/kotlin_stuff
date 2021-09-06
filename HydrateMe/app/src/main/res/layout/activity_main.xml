@@ -176,8 +176,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settingsButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginEnd="8dp"
                     android:foreground="@drawable/settings_icon"
                     android:onClick="openSettings"

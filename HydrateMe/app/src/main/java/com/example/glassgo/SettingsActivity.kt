@@ -1,18 +1,12 @@
-package com.example.hydrateme
+package com.example.glassgo
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.example.hydrateme.waterfall.Avatar
-import com.example.hydrateme.waterfall.ConditionType
-import com.example.hydrateme.waterfall.Profile
+import com.example.glassgo.waterfall.Profile
 import java.io.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -73,5 +67,11 @@ class SettingsActivity : AppCompatActivity() {
     fun startAvatarActivity(view: View) {
         dataSaver()
         startActivity(Intent(this, AvatarActivity::class.java))
+    }
+
+    fun openPrivacyPolicy(view: View) {
+        dataSaver()
+        val address = Uri.parse("https://glassgo.flycricket.io/privacy.html")
+        startActivity(Intent(Intent.ACTION_VIEW, address))
     }
 }

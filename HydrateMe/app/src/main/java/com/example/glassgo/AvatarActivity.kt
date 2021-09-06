@@ -1,4 +1,4 @@
-package com.example.hydrateme
+package com.example.glassgo
 
 import android.graphics.Typeface
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import com.example.hydrateme.waterfall.*
+import com.example.glassgo.waterfall.*
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
@@ -94,27 +94,27 @@ class AvatarActivity : AppCompatActivity() {
 
         avatar = Avatar(
                 2,
-                R.string.floppa_test,
-                R.drawable.floppa,
-                R.drawable.floppa,
-                R.drawable.floppa,
-                R.drawable.floppa,
-                R.string.floppa_test_description,
+                R.string.avatar_cat,
+                R.drawable.cat,
+                R.drawable.cat_happy,
+                R.drawable.cat_sad,
+                R.drawable.cat_super_sad,
+                R.string.avatar_cat_des,
                 ConditionType.MONEY,
-                10
+                15
         )
         avatarList.add(avatar)
 
         avatar = Avatar(
                 3,
-                R.string.bingus_test,
-                R.drawable.bingus,
-                R.drawable.bingus,
-                R.drawable.bingus,
-                R.drawable.bingus,
-                R.string.bingus_test_description,
+                R.string.avatar_red_cat,
+                R.drawable.cat_orange,
+                R.drawable.cat_orange_happy,
+                R.drawable.cat_orange_sad,
+                R.drawable.cat_orange_super_sad,
+                R.string.avatar_red_cat_des,
                 ConditionType.ADVERT,
-                10
+                18
         )
         avatarList.add(avatar)
     }
@@ -154,7 +154,7 @@ class AvatarActivity : AppCompatActivity() {
                 R.string.sunglasses,
                 R.drawable.sunglasses,
                 ConditionType.ADVERT,
-                5
+                8
         )
         maskList.add(mask)
     }
@@ -704,7 +704,7 @@ class AvatarActivity : AppCompatActivity() {
             }
         }
         var timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
-        val threeHours: Long = 60 * 60 * 3 * 1000
+        val threeHours: Long = 60 * 60 * 2 * 1000
         if (timeFromPrevAdvert > threeHours) {
             timeFromPrevAdvert = threeHours
         }

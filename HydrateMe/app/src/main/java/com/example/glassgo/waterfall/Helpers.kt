@@ -1,4 +1,4 @@
-package com.example.hydrateme.waterfall
+package com.example.glassgo.waterfall
 
 import android.content.Context
 import android.util.TypedValue

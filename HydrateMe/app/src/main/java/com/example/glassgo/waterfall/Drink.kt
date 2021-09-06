@@ -1,4 +1,4 @@
-package com.example.hydrateme.waterfall
+package com.example.glassgo.waterfall
 
 import kotlin.math.ceil
 

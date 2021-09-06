@@ -1,4 +1,4 @@
-package com.example.hydrateme
+package com.example.glassgo
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.example.hydrateme.waterfall.*
+import com.example.glassgo.waterfall.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -839,7 +839,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         findViewById<TextView>(R.id.personName).text = profile.name
         val timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
-        val threeHours: Long = 60 * 60 * 3 * 1000
+        val threeHours: Long = 60 * 60 * 2 * 1000
         if (timeFromPrevAdvert > threeHours) {
             findViewById<TextView>(R.id.advertNotification).visibility = View.VISIBLE
         } else {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HydrateMe</string>
+    <string name="app_name" translatable="false">GlassGo!</string>
     <string name="trophy_amount">Trophies: %d</string>
     <string name="lvl_info">Level %d</string>
     <string name="progress_text" translatable="false">%d/%d</string>
@@ -19,7 +19,7 @@
     <string name="empty_chronology_message">Add your first drink today</string>
     <string name="customization">Customization</string>
     <string name="thank_you">Thank you for using our app!</string>
-    <string name="advert_available">One diamond available per ad</string>
+    <string name="advert_available">One gem available</string>
 
     <string name="stat_section">Statistics</string>
     <string name="daily_section">Today drinks</string>
@@ -77,10 +77,14 @@
 
     <string name="avatar_blue_drop">Blue Blobby</string>
     <string name="avatar_pink_drop">Pink Blobby</string>
+    <string name="avatar_cat">Gray kitty</string>
+    <string name="avatar_red_cat">Red kitty</string>
     <string name="floppa_test">Floppa</string>
     <string name="bingus_test">Bingus</string>
     <string name="floppa_test_description">Russian cat</string>
     <string name="bingus_test_description">Bingus club</string>
+    <string name="avatar_cat_des">Very curious and charming</string>
+    <string name="avatar_red_cat_des">Playful wool ball</string>
     <string name="avatar_base_des">Base avatar</string>
     <string name="avatar_rating_des">Rate our app</string>
     <string name="question_mark" translatable="false">\?</string>
@@ -93,8 +97,9 @@
     <string name="act_time_error_launch">hours per day</string>
     <string name="next_launch">Next</string>
     <string name="done_launch">Done</string>
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="reward_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/9936738880</string>
+    <string name="reward_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/7338495704</string>
+    <string name="privacy_link">Privacy policy</string>
 
     <string name="bow">Bow</string>
     <string name="sunglasses">Sunglasses</string>
@@ -103,7 +108,7 @@
     <string name="tutorial_drink">Add your first drink</string>
     <string name="tutorial_drink_description">Tap to open water editor.</string>
     <string name="tutorial_coins">Coins</string>
-    <string name="tutorial_coins_description">Earn coins to customize your avatar. You get 1 coin a day for completing your norm and some coins for accomplishing achievements.</string>
+    <string name="tutorial_coins_description">Earn coins to customize your avatar. You can get coins for completing your norm, accomplishing achievements and level up.</string>
     <string name="tutorial_exp">Level</string>
     <string name="tutorial_exp_description">You get +50 exp a day and some exp for accomplishing achievements.</string>
     <string name="tutorial_settings_description">Tap to change your personal information or customize avatar.</string>

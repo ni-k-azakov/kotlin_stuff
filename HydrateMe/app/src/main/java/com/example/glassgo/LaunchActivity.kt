@@ -1,4 +1,4 @@
-package com.example.hydrateme
+package com.example.glassgo
 
 import android.content.Intent
 import android.content.SharedPreferences

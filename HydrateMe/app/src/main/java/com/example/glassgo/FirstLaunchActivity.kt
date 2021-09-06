@@ -1,4 +1,4 @@
-package com.example.hydrateme
+package com.example.glassgo
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,12 +8,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.hydrateme.waterfall.DataStorage
-import com.example.hydrateme.waterfall.Profile
-import com.example.hydrateme.waterfall.ToastedList
-import com.example.hydrateme.waterfall.WaterInfo
+import com.example.glassgo.waterfall.Profile
 import java.io.*
 
 class FirstLaunchActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.hydrateme
+package com.example.glassgo
 
 import android.os.Bundle
 import android.view.Gravity
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.example.hydrateme.waterfall.*
+import com.example.glassgo.waterfall.*
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
