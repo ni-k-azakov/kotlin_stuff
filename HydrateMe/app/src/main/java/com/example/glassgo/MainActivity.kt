@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.preference.PreferenceManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.glassgo.waterfall.*
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.gms.ads.*
 import com.hadiidbouk.charts.BarData
 import com.hadiidbouk.charts.ChartProgressBar
 import me.itangqi.waveloadingview.WaveLoadingView
@@ -40,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private val drinkList: MutableList<Drink> = mutableListOf()
     private val dataList: MutableList<BarData> = mutableListOf()
     private lateinit var mAdView: AdView
+    private final var TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +47,29 @@ class MainActivity : AppCompatActivity() {
 
         MobileAds.initialize(this)
         mAdView = findViewById(R.id.adView)
-        val adRequest: AdRequest = AdRequest.Builder().build()
+        val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
+        mAdView.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                Log.d(TAG, "Add loaded")
+            }
 
+            override fun onAdFailedToLoad(adError : LoadAdError) {
+                Log.d(TAG, adError.message)
+            }
+
+            override fun onAdOpened() {
+                Log.d(TAG, "Add opened")
+            }
+
+            override fun onAdClicked() {
+                Log.d(TAG, "Add clicked")
+            }
+
+            override fun onAdClosed() {
+                Log.d(TAG, "Add closed")
+            }
+        }
         fillAchievementList()
         fillAchievments()
 

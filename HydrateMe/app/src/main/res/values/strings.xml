@@ -97,8 +97,8 @@
     <string name="act_time_error_launch">hours per day</string>
     <string name="next_launch">Next</string>
     <string name="done_launch">Done</string>
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/9936738880</string>
-    <string name="reward_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/7338495704</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/7338495704</string>
+    <string name="reward_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/9936738880</string>
     <string name="privacy_link">Privacy policy</string>
 
     <string name="bow">Bow</string>

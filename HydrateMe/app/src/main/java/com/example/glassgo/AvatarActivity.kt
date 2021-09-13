@@ -3,6 +3,7 @@ package com.example.glassgo
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.glassgo.waterfall.*
 import com.google.android.gms.ads.*
+import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import java.io.*
@@ -21,12 +23,43 @@ class AvatarActivity : AppCompatActivity() {
     private val hatList: MutableList<Clothes> = mutableListOf()
     private val maskList: MutableList<Clothes> = mutableListOf()
     private var rewardedAd: RewardedAd? = null
+    private final var TAG = "AvatarActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avatar)
-        MobileAds.initialize(this) {}
-        createAndLoadRewardAd()
+
+        var adRequest = AdRequest.Builder().build()
+        RewardedAd.load(this,
+                getString(R.string.reward_ad_unit_id),
+                adRequest,
+                object : RewardedAdLoadCallback() {
+                    override fun onAdLoaded(ad: RewardedAd) {
+                        Log.d(TAG, "Ad was loaded.")
+                        rewardedAd = ad
+                    }
+
+                    override fun onAdFailedToLoad(p0: LoadAdError) {
+                        Log.d(TAG, p0.message)
+                        rewardedAd = null
+                    }
+                }
+        )
+        rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+            override fun onAdShowedFullScreenContent() {
+                // Called when ad is shown.
+                Log.d(TAG, "Ad was shown.")
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                Log.d(TAG, "Ad failed to show.")
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                Log.d(TAG, "Ad was dismissed.")
+                rewardedAd = null
+            }
+        }
 
         dataLoader()
         fillAvatarList()
@@ -692,15 +725,15 @@ class AvatarActivity : AppCompatActivity() {
         advertButton.isEnabled = false
         advertButton.setOnClickListener {
             if (rewardedAd != null) {
-                rewardedAd?.show(this) { rewardItem ->
-                    profile.advertCoins += rewardItem.amount
+                rewardedAd?.show(this) {
+                    profile.advertCoins += it.amount
                     profile.lastAdvertShow = System.currentTimeMillis()
                     updateButton()
                     updateViews()
-                    onRewardedAdClosed()
+                    Log.d(TAG, "User earned the reward.")
                 }
             } else {
-                onRewardedAdClosed()
+                Log.d(TAG, "The rewarded ad wasn't ready yet.")
             }
         }
         var timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
@@ -723,38 +756,5 @@ class AvatarActivity : AppCompatActivity() {
             }
         }
         timer.start()
-    }
-
-    fun createAndLoadRewardAd() {
-        RewardedAd.load(this,
-                "ca-app-pub-3940256099942544/5224354917",
-                AdRequest.Builder().build(),
-                object : RewardedAdLoadCallback() {
-                    override fun onAdLoaded(ad: RewardedAd) {
-                        rewardedAd = ad
-                    }
-
-                    override fun onAdFailedToLoad(p0: LoadAdError) {
-                        rewardedAd = null
-                    }
-                }
-        )
-        rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-            override fun onAdShowedFullScreenContent() {
-                // Called when ad is shown.
-            }
-
-            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-                // Called when ad fails to show.
-            }
-
-            override fun onAdDismissedFullScreenContent() {
-                rewardedAd = null
-            }
-        }
-    }
-
-    fun onRewardedAdClosed() {
-        createAndLoadRewardAd()
     }
 }
