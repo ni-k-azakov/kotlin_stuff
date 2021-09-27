@@ -1,10 +1,15 @@
 package com.example.glassgo
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
@@ -21,7 +26,6 @@ import com.hadiidbouk.charts.BarData
 import com.hadiidbouk.charts.ChartProgressBar
 import me.itangqi.waveloadingview.WaveLoadingView
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
-import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.RectanglePromptBackground
 import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
 import java.io.*
 import java.text.SimpleDateFormat
@@ -70,6 +74,9 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Add closed")
             }
         }
+
+        manageNotifications()
+
         fillAchievementList()
         fillAchievments()
 
@@ -97,6 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         mAdView.destroy()
+        manageNotifications()
         super.onDestroy()
     }
 
@@ -587,8 +595,8 @@ class MainActivity : AppCompatActivity() {
             verticalLayout2.layoutParams = vparams
             verticalLayout2.orientation = LinearLayout.VERTICAL
 
-            val iconLayout = LinearLayout(this)
-            iconLayout.setBackgroundResource(drink.resourceId)
+            val iconLayout = ImageView(this)
+            iconLayout.setImageResource(drink.resourceId)
 
             val text = TextView(this)
             text.setText(drink.name)
@@ -626,8 +634,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             val mParams: ViewGroup.LayoutParams = iconLayout.layoutParams as ViewGroup.LayoutParams
-            mParams.height = 35.dpToPixels(this).toInt()
-            mParams.width = 35.dpToPixels(this).toInt()
+            mParams.height = 50.dpToPixels(this).toInt()
+            mParams.width = 50.dpToPixels(this).toInt()
             iconLayout.layoutParams = mParams
             iconLayout.postInvalidate()
 
@@ -642,7 +650,7 @@ class MainActivity : AppCompatActivity() {
 
             val listViewParams: ViewGroup.MarginLayoutParams = verticalLayout1.layoutParams as ViewGroup.MarginLayoutParams
             listViewParams.setMargins(
-                10.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 10.dpToPixels(
+                10.dpToPixels(this).toInt(), 5.dpToPixels(this).toInt(), 0.dpToPixels(
                     this
                 ).toInt(), 5.dpToPixels(this).toInt()
             )
@@ -782,11 +790,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateInfo() {
-        findViewById<TextView>(R.id.waterInfoView).text = getString(
-            R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(
-                profile.sex
+        findViewById<TextView>(R.id.waterInfoView).text = if (waterInfo.getCurrentWater().toFloat() / 1000 > 0) {
+            getString(
+                    R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(
+                    profile.sex
             )(profile.weight, profile.actTime)
-        )
+            )
+        } else {
+            getString(
+                    R.string.water_info, 0F, getFormula(
+                    profile.sex
+            )(profile.weight, profile.actTime)
+            )
+        }
         val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0F) {
             0
         } else {
@@ -809,13 +825,13 @@ class MainActivity : AppCompatActivity() {
 
     fun updateGraph() {
         dataList.clear()
-        val millis = System.currentTimeMillis()
+        val millis = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
         val formatter = SimpleDateFormat("dd/MM")
         var i = 1
         for (waterAmountStored in waterInfo.getLastWeekStat().reversed()) {
             var waterAmount = waterAmountStored
-            if (waterAmount / 1000f > getFormula(profile.sex)(profile.weight, profile.actTime).toFloat()) {
-                waterAmount = (getFormula(profile.sex)(profile.weight, profile.actTime).toFloat() * 1000).toInt()
+            if (waterAmount / 1000f > getFormula(profile.sex)(profile.weight, profile.actTime)) {
+                waterAmount = (getFormula(profile.sex)(profile.weight, profile.actTime) * 1000).toInt()
             } else if (waterAmount < 0) {
                 waterAmount = 0
             }
@@ -823,7 +839,7 @@ class MainActivity : AppCompatActivity() {
             val data = BarData(
                 formatter.format(date), waterAmount / 1000f, getString(
                     R.string.drink_amount,
-                    waterAmountStored / 1000f
+                    waterAmount / 1000f
                 )
             )
             dataList.add(data)
@@ -831,7 +847,7 @@ class MainActivity : AppCompatActivity() {
         }
         val mChart = findViewById<View>(R.id.ChartProgressBar) as ChartProgressBar
         mChart.setDataList(dataList as ArrayList<BarData>?)
-        mChart.setMaxValue(getFormula(profile.sex)(profile.weight, profile.actTime).toFloat())
+        mChart.setMaxValue(getFormula(profile.sex)(profile.weight, profile.actTime))
         mChart.build()
     }
 
@@ -857,7 +873,7 @@ class MainActivity : AppCompatActivity() {
         )
         findViewById<TextView>(R.id.lvlView).text = getString(R.string.lvl_info, profile.lvl)
         findViewById<TextView>(R.id.personName).text = profile.name
-        val timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
+        val timeFromPrevAdvert = System.currentTimeMillis() + TimeZone.getDefault().rawOffset - profile.lastAdvertShow
         val threeHours: Long = 60 * 60 * 2 * 1000
         if (timeFromPrevAdvert > threeHours) {
             findViewById<TextView>(R.id.advertNotification).visibility = View.VISIBLE
@@ -990,5 +1006,134 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 .show()
+    }
+
+
+    private fun manageNotifications() {
+        createNotificationChannel()
+        cancelNotifications()
+        if (profile.notificationStart == 1L) {
+            if (profile.wakeUp != -1L || profile.bedtime != -1L) {
+                val currentTime = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
+                var currentBedTime = profile.bedtime
+                if (profile.bedtime < profile.wakeUp) {
+                    currentBedTime += 86400000L
+                }
+                when (profile.notificationFreq) {
+                    Frequency.THIRTY_MINS -> {
+                        if (currentTime % 86400000L + 30 * 60000 > profile.wakeUp) {
+                            if (currentTime % 86400000L + 30 * 60000 < currentBedTime) {
+                                createNotification(30 * 60000)
+                            } else {
+                                createNotification(86400000L - currentTime % 86400000L + profile.wakeUp)
+                            }
+                        } else {
+                            createNotification(profile.wakeUp - currentTime % 86400000L)
+                        }
+                    }
+                    Frequency.HOUR -> {
+                        if (currentTime % 86400000L + 60 * 60000 > profile.wakeUp) {
+                            if (currentTime % 86400000L + 60 * 60000 < currentBedTime) {
+                                createNotification(60 * 60000)
+                            } else {
+                                createNotification(86400000L - currentTime % 86400000L + profile.wakeUp)
+                            }
+                        } else {
+                            createNotification(profile.wakeUp - currentTime % 86400000L)
+                        }
+                    }
+                    Frequency.TWO_HOURS -> {
+                        if (currentTime % 86400000L + 120 * 60000 > profile.wakeUp) {
+                            if (currentTime % 86400000L + 120 * 60000 < currentBedTime) {
+                                createNotification(120 * 60000)
+                            } else {
+                                createNotification(86400000L - currentTime % 86400000L + profile.wakeUp)
+                            }
+                        } else {
+                            createNotification(profile.wakeUp - currentTime % 86400000L)
+                        }
+                    }
+                    Frequency.FIVE_HOURS -> {
+                        if (currentTime % 86400000L + 300 * 60000 > profile.wakeUp) {
+                            if (currentTime % 86400000L + 300 * 60000 < currentBedTime) {
+                                createNotification(300 * 60000)
+                            } else {
+                                createNotification(86400000L - currentTime % 86400000L + profile.wakeUp)
+                            }
+                        } else {
+                            createNotification(profile.wakeUp - currentTime % 86400000L)
+                        }
+                    }
+                    Frequency.BEDTIME -> {
+                        // TODO()
+//                    val currentTime = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
+//                    if (currentTime % 86400000L > profile.wakeUp) {
+//                        createNotification(profile.bedtime - currentTime % 86400000L - 10 * 60 * 1000)
+//                    } else {
+//                        createNotification(profile.wakeUp - currentTime % 86400000L - 10 * 60 * 1000)
+//                    }
+                    }
+                    Frequency.MEAL -> {
+                        // TODO()
+//                    val currentTime = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
+//                    var isNotificationSet = false
+//                    for (mealTime in profile.meals) {
+//                        if (mealTime.second < currentTime % 86400000L) {
+//                            continue
+//                        } else {
+//                            createNotification(mealTime.second - currentTime % 86400000L - 15 * 60 * 1000)
+//                            isNotificationSet = true
+//                            break
+//                        }
+//                    }
+//                    if (!isNotificationSet && profile.meals.size != 0) {
+//                        createNotification(profile.meals[0].second - currentTime % 86400000L + 86400000L - 15 * 60 * 1000)
+//                    }
+                    }
+                    Frequency.WORKOUT -> {
+                        // TODO()
+                    }
+                    Frequency.OPTIMUM -> {
+                        // TODO()
+                    }
+                }
+            }
+        }
+    }
+
+    fun createNotification(timeInMillis: Long) {
+        val intent = Intent(this, ReminderBroadcast::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val currentTime = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
+        alarmManager.set(AlarmManager.RTC_WAKEUP, currentTime + timeInMillis, pendingIntent)
+    }
+
+    private fun cancelNotifications() {
+        val intent = Intent(this, ReminderBroadcast::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
+    }
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "WaterInfo"
+            val descriptionText = "Water reminder notifications"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("waterNotifications", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }

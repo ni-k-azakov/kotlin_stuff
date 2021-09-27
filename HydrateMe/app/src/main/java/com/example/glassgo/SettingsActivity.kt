@@ -74,4 +74,9 @@ class SettingsActivity : AppCompatActivity() {
         val address = Uri.parse("https://glassgo.flycricket.io/privacy.html")
         startActivity(Intent(Intent.ACTION_VIEW, address))
     }
+
+    fun startNotificationActivity(view: View) {
+        dataSaver()
+        startActivity(Intent(this, NotificationActivity::class.java))
+    }
 }

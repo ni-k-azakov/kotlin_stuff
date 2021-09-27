@@ -61,10 +61,10 @@
     <string name="avatar_base_des">Базовый аватар</string>
     <string name="reset_water">Сброс</string>
     <string name="hello_launch">Привет! Как тебя зовут?</string>
-    <string name="sex_launch">Какой у тебя пол?</string>
-    <string name="weight_launch">Сколько ты весишь?</string>
+    <string name="sex_launch">Какого ты пола?</string>
+    <string name="weight_launch">Какой у тебя вес?</string>
     <string name="blank_field_launch">пустое поле</string>
-    <string name="act_time_launch">Сколько в среднем ты занимаешься спортом за день?</string>
+    <string name="act_time_launch">Сколько ты занимаешься спортом за день?</string>
     <string name="next_launch">Дальше</string>
     <string name="done_launch">Готово</string>
     <string name="act_time_error_launch">часов в сутки</string>
@@ -99,4 +99,18 @@
     <string name="avatar_cat_des">Любознательный очаровашка</string>
     <string name="avatar_red_cat_des">Игривый комочек шерсти</string>
     <string name="privacy_link">Политика конфиденциальности</string>
+    <string name="int_from_int">%d из %d</string>
+    <string name="notifications_heading">Уведомления</string>
+    <string name="min_30">30 минут</string>
+    <string name="hour_1">1 час</string>
+    <string name="hour_2">2 часа</string>
+    <string name="hour_5">5 часа</string>
+    <string name="notification_title">Время пить воду</string>
+    <string name="notification_des">Пора выпить ещё один стакан воды!</string>
+    <string name="sleep">Сон</string>
+    <string name="wake_up">Подъем</string>
+    <string name="avatar_mouse">Мышонок</string>
+    <string name="avatar_mouse_des">Притаился и сидит</string>
+    <string name="crown">Корона</string>
+    <string name="eye_patch">Повязка</string>
 </resources>

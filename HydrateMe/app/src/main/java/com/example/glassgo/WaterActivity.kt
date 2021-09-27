@@ -163,7 +163,19 @@ class WaterActivity : AppCompatActivity() {
     }
 
     fun updateInfo() {
-        findViewById<TextView>(R.id.waterIsFrom).text = getString(R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(profile.sex)(profile.weight, profile.actTime))
+        findViewById<TextView>(R.id.waterIsFrom).text = if (waterInfo.getCurrentWater().toFloat() / 1000 > 0) {
+            getString(
+                    R.string.water_info, waterInfo.getCurrentWater().toFloat() / 1000, getFormula(
+                    profile.sex
+            )(profile.weight, profile.actTime)
+            )
+        } else {
+            getString(
+                    R.string.water_info, 0F, getFormula(
+                    profile.sex
+            )(profile.weight, profile.actTime)
+            )
+        }
         val percent: Int = if (getFormula(profile.sex)(profile.weight, profile.actTime) == 0.0F) {
             0
         } else {

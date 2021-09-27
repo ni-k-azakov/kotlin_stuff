@@ -13,7 +13,7 @@ class WaterInfo(val storage: DataStorage) {
     }
 
     fun dayPassed(liquidNeeded: Float): Boolean {
-        val currentTime = System.currentTimeMillis()
+        val currentTime = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
         if (storage.prevDayCall / 86400000L < currentTime / 86400000L) {
             val range = (currentTime / 86400000L - storage.prevDayCall / 86400000L).toInt()
             if (liquidNeeded <= storage.getCurrentWater() / 1000.0) {

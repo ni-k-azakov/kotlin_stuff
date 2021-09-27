@@ -15,6 +15,7 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import java.io.*
+import java.util.*
 
 class AvatarActivity : AppCompatActivity() {
     private lateinit var profile: Profile
@@ -28,6 +29,7 @@ class AvatarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_avatar)
+        dataLoader()
 
         var adRequest = AdRequest.Builder().build()
         RewardedAd.load(this,
@@ -37,6 +39,7 @@ class AvatarActivity : AppCompatActivity() {
                     override fun onAdLoaded(ad: RewardedAd) {
                         Log.d(TAG, "Ad was loaded.")
                         rewardedAd = ad
+                        updateButton()
                     }
 
                     override fun onAdFailedToLoad(p0: LoadAdError) {
@@ -61,7 +64,7 @@ class AvatarActivity : AppCompatActivity() {
             }
         }
 
-        dataLoader()
+
         fillAvatarList()
         fillHatList()
         fillMaskList()
@@ -150,6 +153,19 @@ class AvatarActivity : AppCompatActivity() {
                 18
         )
         avatarList.add(avatar)
+
+        avatar = Avatar(
+                4,
+                R.string.avatar_mouse,
+                R.drawable.mouse,
+                R.drawable.mouse_happy,
+                R.drawable.mouse_sad,
+                R.drawable.mouse_super_sad,
+                R.string.avatar_mouse_des,
+                ConditionType.MONEY,
+                15
+        )
+        avatarList.add(avatar)
     }
 
     fun fillHatList() {
@@ -170,6 +186,15 @@ class AvatarActivity : AppCompatActivity() {
                 5
         )
         hatList.add(hat)
+
+        hat = Clothes(
+                2,
+                R.string.crown,
+                R.drawable.crown,
+                ConditionType.ADVERT,
+                30
+        )
+        hatList.add(hat)
     }
 
     fun fillMaskList() {
@@ -188,6 +213,15 @@ class AvatarActivity : AppCompatActivity() {
                 R.drawable.sunglasses,
                 ConditionType.ADVERT,
                 8
+        )
+        maskList.add(mask)
+
+        mask = Clothes(
+                2,
+                R.string.eye_patch,
+                R.drawable.eyeband,
+                ConditionType.MONEY,
+                5
         )
         maskList.add(mask)
     }
@@ -226,13 +260,12 @@ class AvatarActivity : AppCompatActivity() {
             } else {
                 if (profile.hat.id == hat.id) {
                     imageChooser.setImageResource(R.drawable.check)
-                } else {
-                    cardLayout.setOnClickListener {
-                        profile.hat = hat
-                        clearHatView()
-                        fillHatListView()
-                        updateViews()
-                    }
+                }
+                cardLayout.setOnClickListener {
+                    profile.hat = hat
+                    clearHatView()
+                    fillHatListView()
+                    updateViews()
                 }
             }
 
@@ -382,13 +415,12 @@ class AvatarActivity : AppCompatActivity() {
             } else {
                 if (profile.mask.id == mask.id) {
                     imageChooser.setImageResource(R.drawable.check)
-                } else {
-                    cardLayout.setOnClickListener {
-                        profile.mask = mask
-                        clearMaskView()
-                        fillMaskListView()
-                        updateViews()
-                    }
+                }
+                cardLayout.setOnClickListener {
+                    profile.mask = mask
+                    clearMaskView()
+                    fillMaskListView()
+                    updateViews()
                 }
             }
 
@@ -538,13 +570,12 @@ class AvatarActivity : AppCompatActivity() {
             } else {
                 if (profile.avatar.id == avatar.id) {
                     imageChooser.setImageResource(R.drawable.check)
-                } else {
-                    cardLayout.setOnClickListener {
-                        profile.avatar = avatar
-                        clearAvatarView()
-                        fillAvatarListView()
-                        updateViews()
-                    }
+                }
+                cardLayout.setOnClickListener {
+                    profile.avatar = avatar
+                    clearAvatarView()
+                    fillAvatarListView()
+                    updateViews()
                 }
             }
 
@@ -718,6 +749,9 @@ class AvatarActivity : AppCompatActivity() {
                 profile.lvl
         )
         )
+        findViewById<TextView>(R.id.avatarAmount).text = getString(R.string.int_from_int, profile.availableAvatarIdList.size, avatarList.size)
+        findViewById<TextView>(R.id.maskAmount).text = getString(R.string.int_from_int, profile.availableMaskIdList.size - 1, maskList.size - 1)
+        findViewById<TextView>(R.id.hatAmount).text = getString(R.string.int_from_int, profile.availableHatIdList.size - 1, hatList.size - 1)
     }
 
     private fun updateButton() {
@@ -727,7 +761,7 @@ class AvatarActivity : AppCompatActivity() {
             if (rewardedAd != null) {
                 rewardedAd?.show(this) {
                     profile.advertCoins += it.amount
-                    profile.lastAdvertShow = System.currentTimeMillis()
+                    profile.lastAdvertShow = System.currentTimeMillis() + TimeZone.getDefault().rawOffset
                     updateButton()
                     updateViews()
                     Log.d(TAG, "User earned the reward.")
@@ -736,7 +770,7 @@ class AvatarActivity : AppCompatActivity() {
                 Log.d(TAG, "The rewarded ad wasn't ready yet.")
             }
         }
-        var timeFromPrevAdvert = System.currentTimeMillis() - profile.lastAdvertShow
+        var timeFromPrevAdvert = System.currentTimeMillis() + TimeZone.getDefault().rawOffset - profile.lastAdvertShow
         val threeHours: Long = 60 * 60 * 2 * 1000
         if (timeFromPrevAdvert > threeHours) {
             timeFromPrevAdvert = threeHours
@@ -752,7 +786,9 @@ class AvatarActivity : AppCompatActivity() {
             }
             override fun onFinish() {
                 advertButton.text = "+1"
-                advertButton.isEnabled = true
+                if (rewardedAd != null) {
+                    advertButton.isEnabled = true
+                }
             }
         }
         timer.start()

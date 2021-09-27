@@ -5,6 +5,7 @@
     <string name="progress_text" translatable="false">%d/%d</string>
     <string name="percentage" translatable="false">%d%%</string>
     <string name="drink_amount">%.2f l</string>
+    <string name="int_from_int">%d from %d</string>
     <string name="days_in_row">%d days in a row</string>
     <string name="days_in_row_text">days in a row</string>
     <string name="float_number" translatable="false">%.2f</string>
@@ -13,6 +14,7 @@
     <string name="water_info">%.2f<small>l</small> of %.2f<small>l</small></string>
     <string name="name_hint">Your name</string>
     <string name="settings_heading">Settings</string>
+    <string name="notifications_heading">Notifications</string>
     <string name="reset_water">Reset</string>
     <string name="chronology_string">Chronology</string>
     <string name="simple_string">Simple</string>
@@ -22,10 +24,6 @@
     <string name="advert_available">One gem available</string>
 
     <string name="stat_section">Statistics</string>
-    <string name="daily_section">Today drinks</string>
-    <string name="achievement_section">Achievements</string>
-    <string name="name_section">Name</string>
-    <string name="sex_section">Sex</string>
     <string name="weight_section">Weight</string>
     <string name="workout_section">Workout time</string>
     <string name="avatar_section">Avatar</string>
@@ -42,6 +40,10 @@
     <string name="drink_coffee">Coffee</string>
     <string name="drink_coffee_milk">Coffee with milk</string>
     <string name="drink_alco">Alcohol</string>
+    <string name="daily_section">Today drinks</string>
+    <string name="achievement_section">Achievements</string>
+    <string name="name_section">Name</string>
+    <string name="sex_section">Sex</string>
     <string name="drink_energy">Energy drink</string>
 
     <string name="ach_day_1">First steps</string>
@@ -79,12 +81,14 @@
     <string name="avatar_pink_drop">Pink Blobby</string>
     <string name="avatar_cat">Gray kitty</string>
     <string name="avatar_red_cat">Red kitty</string>
+    <string name="avatar_mouse">Mouse</string>
     <string name="floppa_test">Floppa</string>
     <string name="bingus_test">Bingus</string>
     <string name="floppa_test_description">Russian cat</string>
     <string name="bingus_test_description">Bingus club</string>
     <string name="avatar_cat_des">Very curious and charming</string>
     <string name="avatar_red_cat_des">Playful wool ball</string>
+    <string name="avatar_mouse_des">Lurking in the corner</string>
     <string name="avatar_base_des">Base avatar</string>
     <string name="avatar_rating_des">Rate our app</string>
     <string name="question_mark" translatable="false">\?</string>
@@ -97,12 +101,22 @@
     <string name="act_time_error_launch">hours per day</string>
     <string name="next_launch">Next</string>
     <string name="done_launch">Done</string>
+
+
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/7338495704</string>
     <string name="reward_ad_unit_id" translatable="false">ca-app-pub-2321454692684784/9936738880</string>
+
+    <!-- FAKE ADS
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="reward_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    -->
+
     <string name="privacy_link">Privacy policy</string>
 
     <string name="bow">Bow</string>
     <string name="sunglasses">Sunglasses</string>
+    <string name="crown">Crown</string>
+    <string name="eye_patch">Eye patch</string>
     <string name="nothing">Nothing</string>
 
     <string name="tutorial_drink">Add your first drink</string>
@@ -115,4 +129,14 @@
     <string name="tutorial_stat_description">Tap on column to find out the amount of liquid on a specific day.</string>
     <string name="tutorial_change">Today drinks</string>
     <string name="tutorial_change_description">Tap to change the appearance of your daily statistics.</string>
+
+    <string name="notification_title">Water time</string>
+    <string name="notification_des">Hey, it\'s time for another glass of water!</string>
+
+    <string name="min_30">30 minutes</string>
+    <string name="hour_1">1 hour</string>
+    <string name="hour_2">2 hours</string>
+    <string name="hour_5">5 hours</string>
+    <string name="wake_up">Wake at</string>
+    <string name="sleep">Sleep at</string>
 </resources>

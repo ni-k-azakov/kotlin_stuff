@@ -45,8 +45,8 @@ class Profile : Serializable {
     val availableHatIdList: MutableList<Byte> = mutableListOf(0)
 
     //  TODO(всякая штука с уведомлениями)
-    var notificationStart: Long = -1
-    var notificationEnd: Long = -1
+    var notificationStart: Long = -1 // используется, как флаг включения уведомлений
+    var notificationEnd: Long = -1 // бесполезная хрень
     var wakeUp: Long = -1
     var bedtime: Long = -1
     var notificationFreq: Frequency = Frequency.HOUR

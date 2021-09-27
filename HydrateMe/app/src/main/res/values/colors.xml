@@ -7,6 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dirty_white">#F6F6F6</color>
     <color name="blue_number">#2D7FFF</color>
     <color name="blue_progress_click">#6FA7FF</color>
     <color name="light_blue">#DEF8FF</color>
@@ -14,4 +15,6 @@
     <color name="light_grey">#D3D3D3</color>
     <color name="settings_grey">#888888</color>
     <color name="transparent">#00888888</color>
+    <color name="orange_sunrise">#FF9800</color>
+    <color name="blue_midnight">#0A053A</color>
 </resources>
